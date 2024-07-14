@@ -1,7 +1,7 @@
-// import IItemDomain from './IItemDomain';
-// import { Base } from '../../../Main/Domain/Entities';
-//
-class Item  // extends Base implements IItemDomain
+import IItemDomain from './IItemDomain';
+import BaseDomain from '../../../Shared/Entities/BaseDomain';
+
+class Item extends BaseDomain implements IItemDomain
 {
     name: string;
     description: number;

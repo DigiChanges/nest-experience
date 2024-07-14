@@ -1,76 +1,85 @@
-import { Post, Get, Controller, Body } from '@nestjs/common';
+import {
+    Post,
+    Get,
+    Controller,
+    Body,
+    Param,
+    Delete,
+    Put
+} from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+
 import ItemRepPayload from '../../Domain/Payloads/ItemRepPayload';
-import SaveItemUseCase from '../../Domain/UseCases/SaveItemUseCase';
+import SaveItemCommand from '../../Application/Commands/SaveItemCommand';
+import IdPayload from '../../../Shared/Payloads/IdPayload';
+import GetItemQuery from '../../Application/Queries/GetItemQuery';
+import ItemTransformer from '../Transformers/ItemTransformer';
+import IItemDomain from '../../Domain/Entities/IItemDomain';
+import ItemUpdatePayload from '../../Domain/Payloads/ItemUpdatePayload';
+import UpdateItemCommand from '../../Application/Commands/UpdateItemCommand';
+import RemoveItemCommand from '../../Application/Commands/RemoveItemCommand';
+import ItemFilter from '../Criterias/ItemFilter';
+import ItemSort from '../Criterias/ItemSort';
+import ListItemQuery from '../../Application/Queries/ListItemQuery';
+import { Criteria } from '../../../Shared/Criteria/CriteriaDecorator';
+import Responder from '../../../Shared/Utils/Responder';
+import IItemTransformer from '../Transformers/IItemTransformer';
+import { ICriteria } from '../../../Shared/Criteria/ICriteria';
+import { IPaginator } from '../../../Shared/Criteria/IPaginator';
 
 @Controller('items')
 class ItemController
 {
-    constructor(private useCase: SaveItemUseCase)
-    {
-
-    }
+    constructor(
+        private queryBus: QueryBus,
+        private commandBus: CommandBus,
+        private responder: Responder
+    ) {}
 
     @Post('/')
-    async save(@Body() payload: ItemRepPayload): Promise<void>
+    async save(@Body() payload: ItemRepPayload)
     {
-        console.log('useCase');
-        console.log(this.useCase.handle(payload));
+        await this.commandBus.execute(new SaveItemCommand(payload));
 
-        // const commandBus = DependencyInjector.inject<CommandBus>(CommandBus);
-        // console.log('commandBus');
-        // console.log(commandBus);
-        //
-        // const itemId = await commandBus.execute(new SaveItemCommand(payload));
-        // console.log('itemId');
-        // console.log(itemId);
-        //
-        // await responder.send({ _id: itemId }, reply, StatusCode.HTTP_CREATED, new DefaultMessageTransformer(ResponseMessageEnum.CREATED));
+        return { message: 'Item created.' };
     }
-//
-//     async list(request: FastifyRequest<IRequestFastify>, reply: FastifyReply): Promise<void>
-//     {
-//         const { url } = request;
-//
-//         const requestCriteria: ICriteria = new RequestCriteria({
-//             filter: new ItemFilter(request.query as ParsedQs),
-//             sort: new ItemSort(request.query as ParsedQs),
-//             pagination: new Pagination(request.query as ParsedQs, url)
-//         });
-//
-//         const commandBus = DependencyInjector.inject<QueryBus>('QueryBus');
-//         const paginator = await commandBus.execute(new ListItemQuery(requestCriteria));
-//
-//         await responder.paginate(paginator, reply, StatusCode.HTTP_OK, new ItemTransformer());
-//     }
-//
-//     async show(request: FastifyRequest, reply: FastifyReply): Promise<void>
-//     {
-//         const commandBus = DependencyInjector.inject<QueryBus>('QueryBus');
-//         const item = await commandBus.execute(new GetItemQuery(request.params as IdPayload));
-//
-//         await responder.send(item, reply, StatusCode.HTTP_OK, new ItemTransformer());
-//     }
-//
-//     async update(request: FastifyRequest<IRequestFastify<ItemUpdatePayload>>, reply: FastifyReply): Promise<void>
-//     {
-//         const payload = {
-//             id: (request.params as IdPayload).id,
-//             ...request.body
-//         };
-//
-//         const commandBus = DependencyInjector.inject<CommandBus>('CommandBus');
-//         const itemId = await commandBus.execute(new UpdateItemCommand(payload));
-//
-//         await responder.send({ _id: itemId }, reply, StatusCode.HTTP_OK, new DefaultMessageTransformer(ResponseMessageEnum.UPDATED));
-//     }
-//
-//     async remove(request: FastifyRequest<IRequestFastify>, reply: FastifyReply): Promise<void>
-//     {
-//         const commandBus = DependencyInjector.inject<CommandBus>('CommandBus');
-//         const item = await commandBus.execute(new RemoveItemCommand(request.params as IdPayload));
-//
-//         await responder.send(item, reply, StatusCode.HTTP_OK, new ItemTransformer());
-//     }
+
+    @Get('/')
+    async list(@Criteria([ItemFilter, ItemSort]) payload: ICriteria)
+    {
+        const paginator: IPaginator = await this.queryBus.execute(new ListItemQuery(payload));
+
+        return this.responder.paginate<IItemDomain, IItemTransformer>(paginator, new ItemTransformer());
+    }
+
+    @Get('/:id')
+    async show(@Param() payload: IdPayload)
+    {
+        const item$: Promise<IItemDomain> = this.queryBus.execute(new GetItemQuery(payload));
+
+        return this.responder.send<IItemDomain, IItemTransformer>(item$, new ItemTransformer());
+    }
+
+    @Put('/:id')
+    async update(@Param() idPayload: IdPayload, @Body() bodyPayload: ItemRepPayload)
+    {
+        const payload: ItemUpdatePayload = {
+            ...idPayload,
+            ...bodyPayload
+        };
+
+        await this.commandBus.execute(new UpdateItemCommand((payload)));
+
+        return { message: 'Item updated.', id: payload.id };
+    }
+
+    @Delete('/:id')
+    async remove(@Param() payload: IdPayload)
+    {
+        await this.commandBus.execute(new RemoveItemCommand((payload)));
+
+        return { message: 'Item removed.', id: payload.id };
+    }
 }
 
 export default ItemController;

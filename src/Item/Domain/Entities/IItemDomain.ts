@@ -1,6 +1,7 @@
-// import ItemRepPayload from '../Payloads/ItemRepPayload';
-// import { IBaseExtendDomain } from '../../../Main/Domain/IBaseExtendDomain';
-//
-// interface IItemDomain extends IBaseExtendDomain, ItemRepPayload {}
-//
-// export default IItemDomain;
+import ItemRepPayload from '../Payloads/ItemRepPayload';
+import IBaseDomain from '../../../Shared/Entities/IBaseDomain';
+
+interface IItemDomain extends ItemRepPayload, IBaseDomain
+{}
+
+export default IItemDomain;
