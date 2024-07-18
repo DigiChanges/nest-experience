@@ -7,7 +7,7 @@ import { CommandModule } from '../Command/CommandModule';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://ecommerce:ecommerce@ecommerce.dlicjcg.mongodb.net/nest-boilerplate'),
+    MongooseModule.forRoot(''),
     AuthModule,
     ItemModule,
     CommandModule
