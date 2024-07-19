@@ -1,30 +1,39 @@
-import IFileVersionDomain from '../Entities/IFileVersionDomain';
-import FileVersion from '../Entities/FileVersion';
-import FileService from '../Services/FileService';
-import IFileDTO from '../Models/IFileDTO';
-import FileDTO from '../Models/FileDTO';
-import OptimizePayload from '../Payloads/OptimizePayload';
 import OptimizeSchemaValidation from '../Validations/OptimizeSchemaValidation';
-import ValidatorSchema from '../../../Main/Domain/Shared/ValidatorSchema';
+import ValidatedHandler from '../../../Shared/Handlers/ValidatedHandler';
+import OptimizeQuery from '../Queries/OptimizeQuery';
+import { QueryHandler } from '@nestjs/cqrs';
+import FileService from '../Services/FileService';
+import IFileVersionDomain from '../../Domain/Entities/IFileVersionDomain';
+import FileVersion from '../../Domain/Entities/FileVersion';
+import FileDTO from '../../Domain/Models/FileDTO';
+import OptimizePayload from "../../Domain/Payloads/OptimizePayload";
 
-class OptimizeUseCase
+
+@QueryHandler(OptimizeQuery)
+class Optimize extends ValidatedHandler<OptimizeQuery>
 {
-    private fileService = new FileService();
+    #fileService = new FileService();
 
-    async handle(payload: OptimizePayload): Promise<IFileDTO>
-    {
-        await ValidatorSchema.handle(OptimizeSchemaValidation, payload);
+    constructor()
+{
+        super(OptimizeSchemaValidation);
+    }
 
-        const { id } = payload;
-        let file = await this.fileService.getOne(id);
-        const fileVersions = await this.fileService.getVersions(id);
+    async execute(query: OptimizeQuery): Promise<FileDTO>
+{
+
+    const payload = await this.validate<OptimizePayload>(query);
+
+    const { id } = payload;
+        let file = await this.#fileService.getOne(id);
+        const fileVersions = await this.#fileService.getVersions(id);
         const lastVersion = fileVersions.find(v => v.version === file.currentVersion);
 
         const optimizing = lastVersion && !lastVersion.isOptimized && lastVersion.isImage;
 
         if (optimizing)
         {
-            const optimizePayload = await this.fileService.optimizeFileVersion(lastVersion);
+            const optimizePayload = await this.#fileService.optimizeFileVersion(lastVersion);
 
             const build = {
                 originalName: optimizePayload.originalName,
@@ -39,9 +48,9 @@ class OptimizeUseCase
             };
 
             let newFileVersion: IFileVersionDomain = new FileVersion(build);
-            newFileVersion = await this.fileService.persistVersion(newFileVersion);
-            await this.fileService.uploadFileVersionOptimized(newFileVersion, optimizePayload);
-            file = await this.fileService.update(file);
+            newFileVersion = await this.#fileService.persistVersion(newFileVersion);
+            await this.#fileService.uploadFileVersionOptimized(newFileVersion, optimizePayload);
+            file = await this.#fileService.update(file);
 
             fileVersions.push(newFileVersion);
         }
@@ -50,4 +59,4 @@ class OptimizeUseCase
     }
 }
 
-export default OptimizeUseCase;
+export default Optimize;

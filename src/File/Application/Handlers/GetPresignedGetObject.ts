@@ -1,24 +1,28 @@
-//import PresignedFileRepPayload from '../Payloads/PresignedFileRepPayload';
 import ValidatedHandler from 'src/Shared/Handlers/ValidatedHandler';
 import FileService from '../Services/FileService';
 import PresignedFileSchemaValidation from '../Validations/PresignedFileSchemaValidation';
-/*
-class GetPresignedGetObjectUseCase {
-  private fileService = new FileService();
+import { QueryHandler } from '@nestjs/cqrs';
+import GetPresignedGetObjectQuery from '../Queries/GetPresignedGetObjectQuery';
+import PresignedFileRepPayload from "../../Domain/Payloads/PresignedFileRepPayload";
+import ItemRepPayload from "../../../Item/Domain/Payloads/ItemRepPayload";
 
-  async handle(payload: PresignedFileRepPayload): Promise<string> {
-    await ValidatorSchema.handle(PresignedFileSchemaValidation, payload);
-
-    return this.fileService.getPresignedGetObject(payload);
-  }
-}*/
-
-class GetPresignedGetObject extends ValidatedHandler<T> {
+@QueryHandler(GetPresignedGetObjectQuery)
+class GetPresignedGetObject extends ValidatedHandler<GetPresignedGetObjectQuery>
+{
   #fileService = new FileService();
-
-  async execute(query: T): Promise<string> {
-    return this.#fileService.getPresignedGetObject(query);
+  constructor()
+  {
+    super(PresignedFileSchemaValidation);
+  }
+  async execute(query: GetPresignedGetObjectQuery): Promise<string>
+  {
+    const payload = await this.validate<PresignedFileRepPayload>(query);
+    return this.#fileService.getPresignedGetObject(payload);
   }
 }
 
 export default GetPresignedGetObject;
+
+
+
+

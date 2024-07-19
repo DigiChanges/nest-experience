@@ -1,14 +1,27 @@
 import FileService from '../Services/FileService';
-import { ListObjectsPayload } from '../Payloads/ListObjectsPayload';
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import ValidatedHandler from '../../../Shared/Handlers/ValidatedHandler';
+import CriteriaSchemaValidation from '../../../Shared/Payloads/CriteriaSchemaValidation';
+import { IPaginator } from '../../../Shared/Criteria/IPaginator';
+import { ICriteria } from '../../../Shared/Criteria/ICriteria';
+import ListObjectsQuery from '../Queries/ListObjectsQuery';
 
-class ListObjectsUseCase
+
+@QueryHandler(ListObjectsQuery)
+class ListObjectsHandler extends ValidatedHandler<ListObjectsQuery> implements IQueryHandler<ListObjectsQuery>
 {
     #fileService = new FileService();
-
-    async handle(payload: ListObjectsPayload): Promise<any>
+    constructor()
     {
-        return await this.#fileService.listObjects(payload);
+        super(CriteriaSchemaValidation);
+    }
+
+    async execute(query: ListObjectsQuery): Promise<IPaginator>
+    {
+        const payload = await this.validate<ICriteria>(query);
+
+        return this.#fileService.list(payload);
     }
 }
 
-export default ListObjectsUseCase;
+export default ListObjectsHandler;

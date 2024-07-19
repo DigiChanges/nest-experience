@@ -3,7 +3,8 @@ import IFileBuild from './IFileBuild';
 import IFileDomain from './IFileDomain';
 import BaseDomain from '../../../Shared/Entities/BaseDomain';
 
-class FileVersion extends BaseDomain implements IFileVersionDomain {
+class FileVersion extends BaseDomain implements IFileVersionDomain
+{
   name: string;
   originalName: string;
   mimeType: string;
@@ -15,7 +16,8 @@ class FileVersion extends BaseDomain implements IFileVersionDomain {
   isOptimized: boolean;
   file: IFileDomain;
 
-  constructor(data?: IFileBuild) {
+  constructor(data?: IFileBuild)
+{
     super();
     this.file = data?.file;
     this.originalName = data?.originalName;
@@ -30,15 +32,18 @@ class FileVersion extends BaseDomain implements IFileVersionDomain {
     this.setPath();
   }
 
-  private setPath() {
+  private setPath()
+{
     // previous this.file?.getId() --> ahora accedemos directamente con .id?
     this.path = `/${this.file?.id}/${this.version}/`;
   }
 
-  public setName(hasOriginalName: boolean) {
+  public setName(hasOriginalName: boolean)
+{
     this.name = this.id;
 
-    if (hasOriginalName) {
+    if (hasOriginalName)
+{
       this.name = this.originalName
         .toLowerCase()
         .replace(/^\s+|\s+$/gm, '')
@@ -47,11 +52,13 @@ class FileVersion extends BaseDomain implements IFileVersionDomain {
     }
   }
 
-  public get objectPath(): string {
+  public get objectPath(): string
+{
     return `${this.path}${this.name}`;
   }
 
-  public get isImage(): boolean {
+  public get isImage(): boolean
+{
     return this.mimeType?.includes('image');
   }
 }

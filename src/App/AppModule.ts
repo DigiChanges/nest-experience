@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://experience:experience@localhost:27018/experience'),
+     MongooseModule.forRoot('mongodb://experience:experience@localhost:27018/experience'),
     ItemModule
   ],
   controllers: [AppController]

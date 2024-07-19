@@ -1,20 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
-  NestFastifyApplication,
+  NestFastifyApplication
 } from '@nestjs/platform-fastify';
 import { AppModule } from './App/AppModule';
 import { RequestMethod } from '@nestjs/common';
 import compression from '@fastify/compress';
 
-void (async () => {
+void (async() =>
+{
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter()
   );
 
   app.setGlobalPrefix('api', {
-    exclude: [{ path: '/', method: RequestMethod.GET }],
+    exclude: [{ path: '/', method: RequestMethod.GET }]
   });
 
   await app.register(compression);

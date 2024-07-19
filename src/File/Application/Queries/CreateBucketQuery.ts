@@ -1,5 +1,6 @@
 import CreateBucketPayload from '../../Domain/Payloads/CreateBucketPayload';
-class CreateBucketQuery {
+class CreateBucketQuery
+{
   constructor(public payload: CreateBucketPayload) {}
 }
 

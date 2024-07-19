@@ -4,10 +4,12 @@ import FileService from '../Services/FileService';
 import { QueryHandler } from '@nestjs/cqrs';
 
 @QueryHandler(CreateBucketQuery)
-class CreateBucket {
+class CreateBucket
+{
   #fileService = new FileService();
 
-  async execute(query: CreateBucketPayload) {
+  async execute(query: CreateBucketPayload)
+{
     await this.#fileService.createBucket(query);
   }
 }

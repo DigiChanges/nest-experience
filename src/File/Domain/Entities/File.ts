@@ -1,10 +1,12 @@
 import IFileDomain from './IFileDomain';
 import BaseDomain from '../../../Shared/Entities/BaseDomain';
 
-class File extends BaseDomain implements IFileDomain {
+class File extends BaseDomain implements IFileDomain
+{
   currentVersion: number;
 
-  constructor() {
+  constructor()
+{
     super();
     this.currentVersion = 0;
   }

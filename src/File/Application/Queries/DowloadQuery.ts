@@ -1,6 +1,7 @@
 import DownloadPayload from '../../Domain/Payloads/DownloadPayload';
 
-class DownloadQuery {
+class DownloadQuery
+{
   constructor(public payload: DownloadPayload) {}
 }
 

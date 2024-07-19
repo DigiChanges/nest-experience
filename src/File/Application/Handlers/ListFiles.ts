@@ -1,15 +1,28 @@
 import FileService from '../Services/FileService';
-import { ICriteria } from '../../../Main/Domain/Criteria';
-import { IPaginator } from '../../../Main/Domain/Criteria/IPaginator';
 
-class ListFilesUseCase
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import ValidatedHandler from '../../../Shared/Handlers/ValidatedHandler';
+import CriteriaSchemaValidation from '../../../Shared/Payloads/CriteriaSchemaValidation';
+import ListFilesQuery from '../Queries/ListFilesQuery';
+import { IPaginator } from '../../../Shared/Criteria/IPaginator';
+import { ICriteria } from '../../../Shared/Criteria/ICriteria';
+
+
+@QueryHandler(ListFilesQuery)
+class ListFilesHandler extends ValidatedHandler<ListFilesQuery> implements IQueryHandler<ListFilesQuery>
 {
-    private fileService = new FileService();
-
-    async handle(payload: ICriteria): Promise<IPaginator>
+    #fileService = new FileService();
+    constructor()
     {
-        return await this.fileService.list(payload);
+        super(CriteriaSchemaValidation);
+    }
+
+    async execute(query: ListFilesQuery): Promise<IPaginator>
+    {
+        const payload = await this.validate<ICriteria>(query);
+
+        return this.#fileService.list(payload);
     }
 }
 
-export default ListFilesUseCase;
+export default ListFilesHandler;

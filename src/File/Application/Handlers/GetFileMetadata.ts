@@ -8,12 +8,15 @@ import { QueryHandler } from '@nestjs/cqrs';
 import GetFileMetadataQuery from '../Queries/GetFileMetadaQuery';
 
 @QueryHandler(GetFileMetadataQuery)
-class GetFileMetadata extends ValidatedHandler<GetFileMetadataQuery> {
+class GetFileMetadata extends ValidatedHandler<GetFileMetadataQuery>
+{
   #fileService = new FileService();
-  constructor() {
+  constructor()
+  {
     super(IdSchemaValidation);
   }
-  async execute(query: GetFileMetadataQuery): Promise<IFileDTO> {
+  async execute(query: GetFileMetadataQuery): Promise<IFileDTO>
+{
     const payload = await this.validate<IdPayload>(query);
     const file = await this.#fileService.getOne(payload.id);
     const fileVersions = await this.#fileService.getVersions(payload.id);

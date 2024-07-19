@@ -1,6 +1,7 @@
 import IdPayload from '../../../Shared/Payloads/IdPayload';
 
-class GetFileMetaDataQuery {
+class GetFileMetaDataQuery
+{
   constructor(public payload: IdPayload) {}
 }
 
