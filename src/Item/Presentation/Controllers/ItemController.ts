@@ -5,10 +5,9 @@ import {
     Body,
     Param,
     Delete,
-    Put
+    Put,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-
 import ItemRepPayload from '../../Domain/Payloads/ItemRepPayload';
 import SaveItemCommand from '../../Application/Commands/SaveItemCommand';
 import IdPayload from '../../../Shared/Payloads/IdPayload';
@@ -21,11 +20,11 @@ import RemoveItemCommand from '../../Application/Commands/RemoveItemCommand';
 import ItemFilter from '../Criterias/ItemFilter';
 import ItemSort from '../Criterias/ItemSort';
 import ListItemQuery from '../../Application/Queries/ListItemQuery';
-import { Criteria } from '../../../Shared/Criteria/CriteriaDecorator';
-import Responder from '../../../Shared/Utils/Responder';
-import IItemTransformer from '../Transformers/IItemTransformer';
-import { ICriteria } from '../../../Shared/Criteria/ICriteria';
-import { IPaginator } from '../../../Shared/Criteria/IPaginator';
+import { Criteria } from '@shared/Criteria/CriteriaDecorator';
+import { ICriteria } from '@shared/Criteria/ICriteria';
+import { IPaginator } from '@shared/Criteria/IPaginator';
+import Transform from '@shared/Decorators/Transform';
+import Paginate from '@shared/Decorators/Paginate';
 
 @Controller('items')
 class ItemController
@@ -33,7 +32,6 @@ class ItemController
     constructor(
         private queryBus: QueryBus,
         private commandBus: CommandBus,
-        private responder: Responder
     ) {}
 
     @Post('/')
@@ -45,19 +43,18 @@ class ItemController
     }
 
     @Get('/')
-    async list(@Criteria([ItemFilter, ItemSort]) payload: ICriteria)
+    @Paginate()
+    @Transform(ItemTransformer)
+    async list(@Criteria([ItemFilter, ItemSort]) payload: ICriteria): Promise<IPaginator>
     {
-        const paginator: IPaginator = await this.queryBus.execute(new ListItemQuery(payload));
-
-        return this.responder.paginate<IItemDomain, IItemTransformer>(paginator, new ItemTransformer());
+        return this.queryBus.execute(new ListItemQuery(payload));
     }
 
     @Get('/:id')
-    async show(@Param() payload: IdPayload)
+    @Transform(ItemTransformer)
+    async show(@Param() payload: IdPayload): Promise<IItemDomain>
     {
-        const item$: Promise<IItemDomain> = this.queryBus.execute(new GetItemQuery(payload));
-
-        return this.responder.send<IItemDomain, IItemTransformer>(item$, new ItemTransformer());
+       return this.queryBus.execute(new GetItemQuery(payload));
     }
 
     @Put('/:id')

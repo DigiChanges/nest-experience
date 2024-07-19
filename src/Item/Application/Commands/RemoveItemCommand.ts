@@ -1,9 +1,6 @@
 import IdPayload from '../../../Shared/Payloads/IdPayload';
+import Command from '@shared/Commands/Command';
 
-class RemoveItemCommand
-{
-    constructor(public payload: IdPayload)
-    {}
-}
+class RemoveItemCommand extends Command<IdPayload> {}
 
 export default RemoveItemCommand;

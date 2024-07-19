@@ -1,4 +1,4 @@
-import { Filter } from '../../../Shared/Criteria/Filter';
+import { Filter } from '@shared/Criteria/Filter';
 
 class ItemFilter extends Filter
 {

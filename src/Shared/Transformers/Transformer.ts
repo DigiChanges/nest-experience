@@ -1,6 +1,6 @@
 import { from, map } from 'rxjs';
-import * as dayjs from 'dayjs';
-import * as utc from 'dayjs/plugin/utc';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { IPaginator } from '../Criteria/IPaginator';
 
 export abstract class Transformer<T, P>

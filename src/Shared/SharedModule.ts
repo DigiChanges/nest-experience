@@ -1,10 +1,8 @@
-import { Module } from '@nestjs/common';
-import Responder from './Utils/Responder';
+import { Global, Module } from '@nestjs/common';
 
+@Global()
 @Module({
-  providers: [
-      Responder
-  ],
-  exports: [Responder]
+  providers: [],
+  exports: []
 })
 export class SharedModule {}
