@@ -30,7 +30,7 @@ class Pagination implements IPagination
 
     getCurrentUrl(): string
     {
-        return this.exist ? `${this.url.replace('/api/', '')}` : '';
+        return this.exist ? this.url : '';
     }
 
     getNextUrl(): string
@@ -41,7 +41,7 @@ class Pagination implements IPagination
         {
             const offset = this.offset + this.limit;
 
-            url = `${this.url.replace('/api/', '')}`;
+            url = this.url
             const searchValue = `pagination[offset]=${this.pagination.offset}`;
             const newValue = `pagination[offset]=${offset}`;
 
