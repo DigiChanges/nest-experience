@@ -1,10 +1,9 @@
 import { IPagination } from './IPagination';
-import { IFilter } from './IFilter';
-import { ISort } from './ISort';
+import { IMapCriteria } from '@shared/Criteria/IMapCriteria';
 
 export interface ICriteria
 {
     getPagination(): IPagination;
-    getFilter(): IFilter;
-    getSort(): ISort;
+    getFilter(): IMapCriteria;
+    getSort(): IMapCriteria;
 }

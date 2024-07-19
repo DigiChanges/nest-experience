@@ -1,6 +1,6 @@
-import { Sort } from '../../../Shared/Criteria/Sort';
+import { MapCriteria } from '@shared/Criteria/MapCriteria';
 
-class ItemSort extends Sort
+class ItemSort extends MapCriteria
 {
     static readonly NAME: string = 'name';
     static readonly TYPE: string = 'type';
@@ -13,7 +13,7 @@ class ItemSort extends Sort
         ];
     }
 
-    getDefaultSorts(): Record<string, 'asc' | 'desc'>[]
+    getDefaults(): Record<string, 'asc' | 'desc'>[]
     {
         return [
             { [ItemSort.NAME]: 'asc' }
