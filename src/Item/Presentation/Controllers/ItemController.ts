@@ -5,7 +5,7 @@ import {
     Body,
     Param,
     Delete,
-    Put, UseInterceptors,
+    Put
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import ItemRepPayload from '../../Domain/Payloads/ItemRepPayload';
@@ -20,19 +20,19 @@ import RemoveItemCommand from '../../Application/Commands/RemoveItemCommand';
 import ListItemQuery from '../../Application/Queries/ListItemQuery';
 import { Criteria } from '@shared/Criteria/CriteriaDecorator';
 import { ICriteria } from '@shared/Criteria/ICriteria';
-import { IPaginator } from '@shared/Criteria/IPaginator';
 import Transform from '@shared/Transformers/TransformDecorator';
 import Paginate from '@shared/Criteria/PaginateDecorator';
 import ItemFilter from '@src/Item/Presentation/Criterias/ItemFilter';
 import ItemSort from '@src/Item/Presentation/Criterias/ItemSort';
 import Criterias from '@shared/Criteria/CriteriasDecorator';
+import { IPaginator } from '@shared/Criteria/IPaginator';
 
 @Controller('items')
 class ItemController
 {
     constructor(
         private queryBus: QueryBus,
-        private commandBus: CommandBus,
+        private commandBus: CommandBus
     ) {}
 
     @Post('/')
@@ -47,7 +47,7 @@ class ItemController
     @Paginate()
     @Transform(ItemTransformer)
     @Criterias(ItemFilter, ItemSort)
-    async list(@Criteria() payload: ICriteria) // Promise<IPaginator>
+    async list(@Criteria() payload: ICriteria): Promise<IPaginator>
     {
         return this.queryBus.execute(new ListItemQuery(payload));
     }
