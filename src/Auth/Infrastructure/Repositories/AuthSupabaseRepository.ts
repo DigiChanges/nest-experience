@@ -18,8 +18,8 @@ class AuthSupabaseRepository implements IAuthRepository
   {
     // TODO: Change for env variables.
     const config = {
-      AUTH_HOST: 'https://xovsaxzresdetrmkouss.supabase.co',
-      AUTH_API_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvdnNheHpyZXNkZXRybWtvdXNzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5OTMxNzU4MCwiZXhwIjoyMDE0ODkzNTgwfQ.V4nj-onXOLX4BwocvaFVoCrVzOhS4wriJd8ylPhDujo'
+      AUTH_HOST: '',
+      AUTH_API_KEY: ''
     };
     this.#client = createClient(config.AUTH_HOST, config.AUTH_API_KEY);
   }
