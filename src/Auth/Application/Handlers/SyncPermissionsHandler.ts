@@ -97,7 +97,7 @@ class SyncPermissionsHandler
       await this.repository.addRolesHasPermissions(rolePermissionAssignments);
     }
 
-    Logger.error('Add or update permissions successfully.');
+    Logger.log('Add or update permissions successfully.');
   }
 }
 
