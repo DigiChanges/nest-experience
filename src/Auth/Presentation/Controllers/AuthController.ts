@@ -1,7 +1,7 @@
 import {
   Post,
   Get,
-  Controller, UseInterceptors
+  Controller, UseInterceptors, Req,
 } from '@nestjs/common';
 import SyncPermissionsHandler from '../../Application/Handlers/SyncPermissionsHandler';
 import PermissionHandler from '../../Application/Handlers/PermissionHandler';
@@ -10,8 +10,7 @@ import Responder from '../../../Shared/Utils/Responder';
 import PermissionsTransformer from '../Transformers/PermissionsTransformer';
 import IPermissionTransformer from '../Transformers/IPermissionsTransformer';
 import Permissions from '../../../Config/Permissions';
-import { PermissionsInterceptor } from '../Interceptors/PermissionInterceptor';
-import AuthorizeSupabaseService from '../../Domain/Services/AuthorizeSupabaseService';
+import AllowedPermissions from '../Decorators/PermissionDecorator';
 
 @Controller('auth')
 class AuthController
@@ -33,7 +32,7 @@ class AuthController
   }
 
   @Get('/')
-  @UseInterceptors(new PermissionsInterceptor(Permissions.AUTH_GET_PERMISSIONS))
+  @AllowedPermissions(Permissions.AUTH_GET_PERMISSIONS)
   async getPermissions()
   {
     const payload: Promise<IGroupPermission[]> = this.permissionHandler.handle();

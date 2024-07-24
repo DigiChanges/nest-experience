@@ -26,6 +26,7 @@ class AuthSupabaseRepository implements IAuthRepository
 
   public async checkPermissions({ userId, permission }: PermissionPayload): Promise<boolean>
   {
+    console.log(userId, "has", permission);
     const { data, error } = await this
       .#client
       .rpc('get_authorization', {

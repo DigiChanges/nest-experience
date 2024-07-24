@@ -4,7 +4,7 @@ import utc from 'dayjs/plugin/utc';
 import IAuthorizeService from './IAuthorizeService';
 
 import IDecodeToken from '../Models/IDecodeToken';
-import jwt from 'jwt-simple';
+import * as jwt from 'jwt-simple';
 import IAuthRepository from '../Repositories/IAuthRepository';
 import IUserDomain from '../Entities/IUserDomain';
 import { ForbiddenException, Injectable } from '@nestjs/common';
@@ -14,9 +14,9 @@ class AuthorizeSupabaseService implements IAuthorizeService
 {
   // TODO: Implement ENV.
   #config = {
-    JWT_ISS: '',
-    JWT_AUD: '',
-    JWT_SECRET: ''
+    JWT_ISS: 'digichanges',
+    JWT_AUD: 'digichanges.com',
+    JWT_SECRET: '/GQkQAcJBOiq1wob2aBOG3F0YUfLncJ8nzjVvcS+K8P8JDHz8CgwOLUCYvlui4Jx5/3CGAWl3JarJYHyn6DOkg=='
   };
 
   constructor(private readonly repository: IAuthRepository) {}
