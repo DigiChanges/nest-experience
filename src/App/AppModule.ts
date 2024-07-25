@@ -5,17 +5,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CqrsModule } from '@nestjs/cqrs';
 import { SharedModule } from '@shared/SharedModule';
 import { AuthModule } from '@src/Auth/AuthModule';
-import { envConfig } from '@src/Config/EnvConfig';
-import { ConfigModule } from '@nestjs/config';
-
+import { AppConfigModule } from '@src/Config/ConfigModule';
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      load: [() => envConfig],
-      isGlobal: true,
-    }),
+    AppConfigModule,
     CqrsModule.forRoot(),
-    MongooseModule.forRoot(''),
+    MongooseModule.forRoot('mongodb+srv://ecommerce:ecommerce@ecommerce.dlicjcg.mongodb.net/nest-boilerplate'),
     SharedModule,
     ItemModule,
     AuthModule

@@ -8,18 +8,16 @@ import * as jwt from 'jwt-simple';
 import IAuthRepository from '../Repositories/IAuthRepository';
 import IUserDomain from '../Entities/IUserDomain';
 import { ForbiddenException, Injectable } from '@nestjs/common';
+import { AppConfigService } from '@src/Config/AppConfigService';
 
 @Injectable()
 class AuthorizeSupabaseService implements IAuthorizeService
 {
-  // TODO: Implement ENV.
-  #config = {
-    JWT_ISS: 'digichanges',
-    JWT_AUD: 'digichanges.com',
-    JWT_SECRET: '/GQkQAcJBOiq1wob2aBOG3F0YUfLncJ8nzjVvcS+K8P8JDHz8CgwOLUCYvlui4Jx5/3CGAWl3JarJYHyn6DOkg=='
-  };
-
-  constructor(private readonly repository: IAuthRepository) {}
+  constructor(
+    private readonly repository: IAuthRepository,
+    private readonly configService: AppConfigService
+  )
+  {}
 
   public getConfirmationToken(email: string): string
   {
@@ -27,20 +25,20 @@ class AuthorizeSupabaseService implements IAuthorizeService
     const expires = dayjs.utc().add(5, 'minute').unix();
 
     const payload = {
-      iss: this.#config.JWT_ISS,
-      aud: this.#config.JWT_AUD,
+      iss: this.configService.getEnv().JWT_ISS,
+      aud: this.configService.getEnv().JWT_AUD,
       sub: email,
       iat: expires,
       exp: expires,
       email
     };
 
-    return jwt.encode(payload, this.#config.JWT_SECRET, 'HS512');
+    return jwt.encode(payload, this.configService.getEnv().JWT_SECRET, 'HS512');
   }
 
   public decodeToken(token: string): IDecodeToken
   {
-    return jwt.decode(token, this.#config.JWT_SECRET, false);
+    return jwt.decode(token, this.configService.getEnv().JWT_SECRET, false);
   }
 
   public async authorize(userId: string, permission: string): Promise<void>

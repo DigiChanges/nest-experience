@@ -9,18 +9,17 @@ import IRoleDomain from '../../Domain/Entities/IRoleDomain';
 import IRolePermissionDomain from '../../Domain/Entities/IRolePermissionDomain';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AppConfigService } from '@src/Config/AppConfigService';
 
 @Injectable()
 class AuthSupabaseRepository implements IAuthRepository
 {
   #client: SupabaseClient;
 
-  constructor(private configService: ConfigService)
+  constructor(private configService: AppConfigService)
+
   {
-    const config = {
-      AUTH_HOST: this.configService.get<string>('AUTH_HOST'),
-      AUTH_API_KEY: this.configService.get<string>('AUTH_API_KEY')
-    };
+    const config = this.configService.getEnv();
     this.#client = createClient(config.AUTH_HOST, config.AUTH_API_KEY);
   }
 
