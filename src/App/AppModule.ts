@@ -15,7 +15,7 @@ import { EnvConfig, EnvSchema } from '@src/Config/EnvConfig';
       isGlobal: true
     }),
     CqrsModule.forRoot(),
-    MongooseModule.forRoot('mongodb+srv://ecommerce:ecommerce@ecommerce.dlicjcg.mongodb.net/nest-boilerplate'),
+    MongooseModule.forRoot(''),
     SharedModule,
     ItemModule,
     AuthModule
