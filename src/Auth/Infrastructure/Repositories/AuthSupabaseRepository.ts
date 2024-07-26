@@ -9,22 +9,25 @@ import IRoleDomain from '../../Domain/Entities/IRoleDomain';
 import IRolePermissionDomain from '../../Domain/Entities/IRolePermissionDomain';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AppConfigService } from '@src/Config/AppConfigService';
 
 @Injectable()
 class AuthSupabaseRepository implements IAuthRepository
 {
   #client: SupabaseClient;
 
-  constructor(private configService: AppConfigService)
+  constructor(private configService: ConfigService)
+{
+    // TODO: Implement a better EnvConfig with useFactory.
+    const config = {
+      AUTH_HOST: this.configService.get('AUTH_HOST'),
+      AUTH_API_KEY: this.configService.get('AUTH_API_KEY')
+    };
 
-  {
-    const config = this.configService.getEnv();
     this.#client = createClient(config.AUTH_HOST, config.AUTH_API_KEY);
   }
 
   public async checkPermissions({ userId, permission }: PermissionPayload): Promise<boolean>
-  {
+{
     const { data, error } = await this
       .#client
       .rpc('get_authorization', {
@@ -33,7 +36,7 @@ class AuthSupabaseRepository implements IAuthRepository
       });
 
     if (error)
-    {
+{
       throw new ErrorHttpException({
         statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
         errorMessage: {
@@ -46,13 +49,13 @@ class AuthSupabaseRepository implements IAuthRepository
   }
 
   public async getAuthUser(info: string): Promise<IUserDomain>
-  {
+{
     const { data, error } = await this
       .#client
       .auth.getUser(info);
 
     if (error || !data?.user)
-    {
+{
       throw new ErrorHttpException({
         statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
         errorMessage: {
@@ -69,14 +72,14 @@ class AuthSupabaseRepository implements IAuthRepository
   }
 
   public async getPermissions(): Promise<IPermissionDomain[]>
-  {
+{
     const { data, error } = await this
       .#client
       .from('permissions')
       .select('*');
 
     if (error)
-    {
+{
       throw new ErrorHttpException({
         statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
         errorMessage: {
@@ -89,7 +92,7 @@ class AuthSupabaseRepository implements IAuthRepository
   }
 
   public async addPermissions(permissions: string[]): Promise<void>
-  {
+{
     const insertPermissions = permissions.map(permission => ({ name: permission }));
 
     const { error } = await this
@@ -98,7 +101,7 @@ class AuthSupabaseRepository implements IAuthRepository
       .insert(insertPermissions);
 
     if (error)
-    {
+{
       throw new ErrorHttpException({
         statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
         errorMessage: {
@@ -109,7 +112,7 @@ class AuthSupabaseRepository implements IAuthRepository
   }
 
   public async removePermissions(permissions: string[]): Promise<void>
-  {
+{
     const { error } = await this
       .#client
       .from('permissions')
@@ -117,7 +120,7 @@ class AuthSupabaseRepository implements IAuthRepository
       .in('name', permissions);
 
     if (error)
-    {
+{
       throw new ErrorHttpException({
         statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
         errorMessage: {
@@ -128,14 +131,14 @@ class AuthSupabaseRepository implements IAuthRepository
   }
 
   public async getRoles(): Promise<IRoleDomain[]>
-  {
+{
     const { data, error } = await this
       .#client
       .from('roles')
       .select();
 
     if (error)
-    {
+{
       throw new ErrorHttpException({
         statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
         errorMessage: {
@@ -148,14 +151,14 @@ class AuthSupabaseRepository implements IAuthRepository
   }
 
   public async addRoles(roles: IRoleDomain[]): Promise<void>
-  {
+{
     const { error } = await this
       .#client
       .from('roles')
       .insert(roles);
 
     if (error)
-    {
+{
       throw new ErrorHttpException({
         statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
         errorMessage: {
@@ -166,14 +169,14 @@ class AuthSupabaseRepository implements IAuthRepository
   }
 
   public async addRolesHasPermissions(rolePermissionDomain: IRolePermissionDomain[]): Promise<void>
-  {
+{
     const { error } = await this
       .#client
       .from('roles_has_permissions')
       .upsert(rolePermissionDomain);
 
     if (error)
-    {
+{
       throw new ErrorHttpException({
         statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
         errorMessage: {

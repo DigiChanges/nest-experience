@@ -7,7 +7,7 @@ import SyncPermissionsHandler from '../../Application/Handlers/SyncPermissionsHa
 import PermissionHandler from '../../Application/Handlers/PermissionHandler';
 import PermissionsTransformer from '../Transformers/PermissionsTransformer';
 import Permissions from '../../../Config/Permissions';
-import AllowedPermissions from '../Decorators/PermissionDecorator';
+import AllowedPermission from '../Decorators/PermissionDecorator';
 import Transform from '@shared/Transformers/TransformDecorator';
 
 @Controller('auth')
@@ -19,8 +19,9 @@ class AuthController
   ) {}
 
   @Post('/')
+  @AllowedPermission(Permissions.AUTH_SYNC_PERMISSIONS)
   async syncRolesPermission()
-  {
+{
     await this.syncRolesPermissionHandler.handle();
 
     return {
@@ -29,10 +30,10 @@ class AuthController
   }
 
   @Get('/')
-  @AllowedPermissions(Permissions.AUTH_GET_PERMISSIONS)
+  @AllowedPermission(Permissions.AUTH_GET_PERMISSIONS)
   @Transform(PermissionsTransformer)
   async getPermissions()
-  {
+{
     return await this.permissionHandler.handle();
   }
 }
