@@ -1,12 +1,12 @@
 import { applyDecorators, SetMetadata, UseInterceptors } from '@nestjs/common';
 import { PermissionsInterceptor } from '../Interceptors/PermissionInterceptor';
-export const PERMISSIONS = 'PERMISIONS';
-const AllowedPermissions = (permission: string) =>
+export const PERMISSION = 'PERMISIONS';
+const AllowedPermission = (permission: string) =>
 {
   return applyDecorators(
-    SetMetadata(PERMISSIONS, permission),
+    SetMetadata(PERMISSION, permission),
     UseInterceptors(PermissionsInterceptor)
   );
 };
 
-export default AllowedPermissions;
+export default AllowedPermission;

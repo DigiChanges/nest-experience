@@ -7,7 +7,7 @@ import IAuthRepository from '../../Domain/Repositories/IAuthRepository';
 import AuthSupabaseRepository from '../../Infrastructure/Repositories/AuthSupabaseRepository';
 class SyncPermissionsHandler
 {
-  // TODO: Ver porque no me funciona sin usar el @Inyect.
+  // TODO: Analyze why it doesnt work witouth the @Inyect.
   constructor(@Inject(IAuthRepository) private repository: AuthSupabaseRepository) {}
 
   async handle(): Promise<void>
