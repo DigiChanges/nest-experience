@@ -1,24 +1,24 @@
 
 services:
-  node:
-    container_name: experience_node_1
-    restart: always
-    tty: false
-    stdin_open: false
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: dev
-    ports:
-      - "8089:8089"
-      - "9229:9229"
-    volumes:
-      - ./dist:/home/node/dist
-      - ./src:/home/node/src
-      - ./config:/home/node/config
-      - ./.env:/home/node/.env
-    networks:
-      - experiencenet
+#  node:
+#    container_name: experience_node_1
+#    restart: always
+#    tty: false
+#    stdin_open: false
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#      target: dev
+#    ports:
+#      - "8089:8089"
+#      - "9229:9229"
+#    volumes:
+#      - ./dist:/home/node/dist
+#      - ./src:/home/node/src
+#      - ./config:/home/node/config
+#      - ./.env:/home/node/.env
+#    networks:
+#      - experiencenet
 
   db:
     container_name: experience_db_1

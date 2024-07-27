@@ -12,7 +12,7 @@ COPY --chown=node:node [".", "/home/node/"]
 
 EXPOSE 8089
 
-ENTRYPOINT ["dumb-init", "pnpm","dev"]
+ENTRYPOINT ["dumb-init", "pnpm","start:dev"]
 
 FROM dev AS build
 

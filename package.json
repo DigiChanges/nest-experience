@@ -34,6 +34,7 @@
     "@nestjs/cqrs": "^10.2.7",
     "@nestjs/mongoose": "^10.0.10",
     "@nestjs/platform-fastify": "^10.3.10",
+    "@supabase/supabase-js": "^2.44.4",
     "dayjs": "^1.11.11",
     "fastify-qs": "^4.0.2",
     "joi": "^17.13.3",

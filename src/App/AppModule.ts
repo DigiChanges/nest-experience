@@ -5,8 +5,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CqrsModule } from '@nestjs/cqrs';
 import { SharedModule } from '@shared/SharedModule';
 import { AuthModule } from '@src/Auth/AuthModule';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EnvConfig, EnvSchema } from '@src/Config/EnvConfig';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,7 +16,12 @@ import { EnvConfig, EnvSchema } from '@src/Config/EnvConfig';
       isGlobal: true
     }),
     CqrsModule.forRoot(),
-    MongooseModule.forRoot(''),
+    MongooseModule.forRootAsync({
+      useFactory: async(config: ConfigService) => ({
+        uri: config.get('DB_URI', 'mongodb://experience:experience@localhost:27018/experience')
+      }),
+      inject: [ConfigService]
+    }),
     SharedModule,
     ItemModule,
     AuthModule
