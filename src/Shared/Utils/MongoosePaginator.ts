@@ -34,7 +34,7 @@ class MongoosePaginator extends BasePaginator implements IPaginator
 
     private addOrderBy()
     {
-        const sorts = this.sort.get();
+        const sorts = this.sort.values();
         const _objectSort = {};
 
         sorts.forEach((value: string, key: string) =>

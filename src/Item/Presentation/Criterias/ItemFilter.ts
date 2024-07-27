@@ -1,6 +1,6 @@
-import { Filter } from '../../../Shared/Criteria/Filter';
+import { MapCriteria } from '@shared/Criteria/MapCriteria';
 
-class ItemFilter extends Filter
+class ItemFilter extends MapCriteria
 {
     static readonly NAME: string = 'name';
     static readonly TYPE: string = 'type';
@@ -13,7 +13,7 @@ class ItemFilter extends Filter
         ];
     }
 
-    getDefaultFilters(): Record<string, number | boolean | string>[]
+    getDefaults(): Record<string, number | boolean | string>[]
     {
         return [];
     }

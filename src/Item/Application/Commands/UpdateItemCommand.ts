@@ -1,9 +1,6 @@
-import ItemUpdatePayload from '../../../Item/Domain/Payloads/ItemUpdatePayload';
+import Command from '@shared/Commands/Command';
+import ItemUpdatePayload from '@src/Item/Domain/Payloads/ItemUpdatePayload';
 
-class UpdateItemCommand
-{
-    constructor(public payload: ItemUpdatePayload)
-    {}
-}
+class UpdateItemCommand extends Command<ItemUpdatePayload> {}
 
 export default UpdateItemCommand;

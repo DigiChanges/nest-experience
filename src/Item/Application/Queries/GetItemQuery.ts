@@ -1,10 +1,7 @@
 import IdPayload from '../../../Shared/Payloads/IdPayload';
+import Query from '@shared/Queries/Query';
 
-
-class GetItemQuery
-{
-    constructor(public payload: IdPayload)
-    {}
-}
+class GetItemQuery extends Query<IdPayload> { }
 
 export default GetItemQuery;
+

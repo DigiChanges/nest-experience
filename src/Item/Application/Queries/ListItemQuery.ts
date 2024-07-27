@@ -1,8 +1,6 @@
-import { ICriteria } from '../../../Shared/Criteria/ICriteria';
+import { ICriteria } from '@shared/Criteria/ICriteria';
+import Query from '@shared/Queries/Query';
 
-class ListItemQuery
-{
-    constructor(public payload: ICriteria) {}
-}
+class ListItemQuery extends Query<ICriteria> { }
 
 export default ListItemQuery;

@@ -1,10 +1,9 @@
-import { IFilter } from './IFilter';
-import { ISort } from './ISort';
 import { IPagination } from './IPagination';
+import { IMapCriteria } from '@shared/Criteria/IMapCriteria';
 
 export interface IRequestCriteria
 {
-    filter: IFilter;
-    sort: ISort;
+    filter: IMapCriteria;
+    sort: IMapCriteria;
     pagination: IPagination;
 }

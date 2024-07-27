@@ -1,13 +1,12 @@
 import { ICriteria } from './ICriteria';
-import { ISort } from './ISort';
-import { IFilter } from './IFilter';
 import { IPagination } from './IPagination';
 import { IRequestCriteria } from './IRequestCriteria';
+import { IMapCriteria } from '@shared/Criteria/IMapCriteria';
 
 export class RequestCriteria implements ICriteria
 {
-    readonly sort: ISort;
-    readonly filter: IFilter;
+    readonly sort: IMapCriteria;
+    readonly filter: IMapCriteria;
     readonly pagination: IPagination;
 
     constructor(criteria: IRequestCriteria)
@@ -17,12 +16,12 @@ export class RequestCriteria implements ICriteria
         this.pagination = criteria.pagination;
     }
 
-    getSort(): ISort
+    getSort(): IMapCriteria
     {
         return this.sort;
     }
 
-    getFilter(): IFilter
+    getFilter(): IMapCriteria
     {
         return this.filter;
     }

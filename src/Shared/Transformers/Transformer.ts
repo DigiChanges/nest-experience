@@ -1,6 +1,6 @@
 import { from, map } from 'rxjs';
-import * as dayjs from 'dayjs';
-import * as utc from 'dayjs/plugin/utc';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { IPaginator } from '../Criteria/IPaginator';
 
 export abstract class Transformer<T, P>
@@ -28,26 +28,31 @@ export abstract class Transformer<T, P>
     {
         const observablePaginate$ = from(paginator.paginate());
 
+        paginator.getExist()
+
         return observablePaginate$.pipe(
             map((element: any) =>
             {
+                const data  = element.map((item: any) => this.transform(item))
+                const pagination = {
+                    total: paginator.getTotal(),
+                    offset: paginator.getOffset(),
+                    limit: paginator.getLimit(),
+                    perPage: paginator.getPerPage(),
+                    currentPage: paginator.getCurrentPage(),
+                    lastPage: paginator.getLasPage(),
+                    from: paginator.getFrom(),
+                    to: paginator.getTo(),
+                    firstUrl: paginator.getFirstUrl(),
+                    lastUrl: paginator.getLastUrl(),
+                    nextUrl: paginator.getNextUrl(),
+                    prevUrl: paginator.getPrevUrl(),
+                    currentUrl: paginator.getCurrentUrl()
+                }
+
                 return {
-                    data: element.map((item: any) => this.transform(item)),
-                    pagination: {
-                        total: paginator.getTotal(),
-                        offset: paginator.getOffset(),
-                        limit: paginator.getLimit(),
-                        perPage: paginator.getPerPage(),
-                        currentPage: paginator.getCurrentPage(),
-                        lastPage: paginator.getLasPage(),
-                        from: paginator.getFrom(),
-                        to: paginator.getTo(),
-                        firstUrl: paginator.getFirstUrl(),
-                        lastUrl: paginator.getLastUrl(),
-                        nextUrl: paginator.getNextUrl(),
-                        prevUrl: paginator.getPrevUrl(),
-                        currentUrl: paginator.getCurrentUrl()
-                    }
+                    data,
+                    ...( paginator.getExist() ? { pagination } : {})
                 };
             })
         );

@@ -8,7 +8,6 @@ import {
     Put
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-
 import ItemRepPayload from '../../Domain/Payloads/ItemRepPayload';
 import SaveItemCommand from '../../Application/Commands/SaveItemCommand';
 import IdPayload from '../../../Shared/Payloads/IdPayload';
@@ -18,22 +17,22 @@ import IItemDomain from '../../Domain/Entities/IItemDomain';
 import ItemUpdatePayload from '../../Domain/Payloads/ItemUpdatePayload';
 import UpdateItemCommand from '../../Application/Commands/UpdateItemCommand';
 import RemoveItemCommand from '../../Application/Commands/RemoveItemCommand';
-import ItemFilter from '../Criterias/ItemFilter';
-import ItemSort from '../Criterias/ItemSort';
 import ListItemQuery from '../../Application/Queries/ListItemQuery';
-import { Criteria } from '../../../Shared/Criteria/CriteriaDecorator';
-import Responder from '../../../Shared/Utils/Responder';
-import IItemTransformer from '../Transformers/IItemTransformer';
-import { ICriteria } from '../../../Shared/Criteria/ICriteria';
-import { IPaginator } from '../../../Shared/Criteria/IPaginator';
+import { Criteria } from '@shared/Criteria/CriteriaDecorator';
+import { ICriteria } from '@shared/Criteria/ICriteria';
+import Transform from '@shared/Transformers/TransformDecorator';
+import Paginate from '@shared/Criteria/PaginateDecorator';
+import ItemFilter from '@src/Item/Presentation/Criterias/ItemFilter';
+import ItemSort from '@src/Item/Presentation/Criterias/ItemSort';
+import Criterias from '@shared/Criteria/CriteriasDecorator';
+import { IPaginator } from '@shared/Criteria/IPaginator';
 
 @Controller('items')
 class ItemController
 {
     constructor(
         private queryBus: QueryBus,
-        private commandBus: CommandBus,
-        private responder: Responder
+        private commandBus: CommandBus
     ) {}
 
     @Post('/')
@@ -45,19 +44,19 @@ class ItemController
     }
 
     @Get('/')
-    async list(@Criteria([ItemFilter, ItemSort]) payload: ICriteria)
+    @Paginate()
+    @Transform(ItemTransformer)
+    @Criterias(ItemFilter, ItemSort)
+    async list(@Criteria() payload: ICriteria): Promise<IPaginator>
     {
-        const paginator: IPaginator = await this.queryBus.execute(new ListItemQuery(payload));
-
-        return this.responder.paginate<IItemDomain, IItemTransformer>(paginator, new ItemTransformer());
+        return this.queryBus.execute(new ListItemQuery(payload));
     }
 
     @Get('/:id')
-    async show(@Param() payload: IdPayload)
+    @Transform(ItemTransformer)
+    async show(@Param() payload: IdPayload): Promise<IItemDomain>
     {
-        const item$: Promise<IItemDomain> = this.queryBus.execute(new GetItemQuery(payload));
-
-        return this.responder.send<IItemDomain, IItemTransformer>(item$, new ItemTransformer());
+       return this.queryBus.execute(new GetItemQuery(payload));
     }
 
     @Put('/:id')

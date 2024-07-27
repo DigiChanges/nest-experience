@@ -3,6 +3,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { AppModule } from './App/AppModule';
 import { RequestMethod } from '@nestjs/common';
 import compression from '@fastify/compress';
+import qs from 'fastify-qs';
 
 void (async() =>
 {
@@ -16,6 +17,7 @@ void (async() =>
   });
 
   await app.register(compression);
+  await app.register(qs);
 
   await app.listen(8089);
 })();

@@ -3,11 +3,12 @@ import { IFilter } from './IFilter';
 import { ISort } from './ISort';
 import { IPagination } from './IPagination';
 import { ICriteria } from './ICriteria';
+import { IMapCriteria } from '@shared/Criteria/IMapCriteria';
 
 export abstract class BasePaginator implements IPaginator
 {
-    protected filter: IFilter;
-    protected sort: ISort;
+    protected filter: IMapCriteria;
+    protected sort: IMapCriteria;
     protected pagination: IPagination;
 
     protected readonly limit: number;
