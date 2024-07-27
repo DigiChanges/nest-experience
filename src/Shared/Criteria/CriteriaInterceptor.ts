@@ -14,10 +14,8 @@ import { CRITERIAS } from '@shared/Criteria/CriteriasDecorator';
 @Injectable()
 class CriteriaInterceptor implements NestInterceptor
 {
-  constructor(
-    private readonly reflector: Reflector
-  )
-  {}
+  constructor(private readonly reflector: Reflector) {}
+
   intercept(context: ExecutionContext, next: CallHandler): Observable<any>
   {
     const request = context.switchToHttp().getRequest();
@@ -39,4 +37,3 @@ class CriteriaInterceptor implements NestInterceptor
 }
 
 export default CriteriaInterceptor;
-

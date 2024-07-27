@@ -6,7 +6,7 @@ import IByOptions from './IByOptions';
 import { ICriteria } from '../Criteria/ICriteria';
 import { IPaginator } from '../Criteria/IPaginator';
 
-abstract class BaseMongooseRepository<T extends IBaseDomain, D extends Document & T> implements IBaseRepository<T>
+abstract class BaseMongooseRepository<T extends IBaseDomain> implements IBaseRepository<T>
 {
     protected readonly entityName: string;
     protected repository: any;

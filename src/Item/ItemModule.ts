@@ -9,7 +9,7 @@ import IItemRepository from './Domain/Repositories/IItemRepository';
 
 @Module({
   imports: [
-      MongooseModule.forFeature([{ name: Item.name, schema: ItemSchema }]),
+      MongooseModule.forFeature([{ name: Item.name, schema: ItemSchema }])
   ],
   controllers: [ItemController],
   providers: [

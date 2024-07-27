@@ -1,6 +1,4 @@
 import { IPaginator } from './IPaginator';
-import { IFilter } from './IFilter';
-import { ISort } from './ISort';
 import { IPagination } from './IPagination';
 import { ICriteria } from './ICriteria';
 import { IMapCriteria } from '@shared/Criteria/IMapCriteria';

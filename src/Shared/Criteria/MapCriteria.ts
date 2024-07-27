@@ -16,7 +16,7 @@ export abstract class MapCriteria implements IMapCriteria
         {
             const defaultKey: string = Object.keys(defaultFilter)[0];
             const defaultValue: string = defaultFilter[defaultKey];
-            this.setValue(defaultKey, defaultValue)
+            this.setValue(defaultKey, defaultValue);
         });
         const criterias = Object.keys(queryFilters).map((key: string) =>
         {
@@ -42,7 +42,7 @@ export abstract class MapCriteria implements IMapCriteria
             const defaultKey: string = Object.keys(newFilter)[0];
             const defaultValue: string = newFilter[defaultKey];
 
-            this.setValue(defaultKey, defaultValue)
+            this.setValue(defaultKey, defaultValue);
         });
     }
 

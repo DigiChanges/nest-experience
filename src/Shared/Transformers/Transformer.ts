@@ -28,12 +28,12 @@ export abstract class Transformer<T, P>
     {
         const observablePaginate$ = from(paginator.paginate());
 
-        paginator.getExist()
+        paginator.getExist();
 
         return observablePaginate$.pipe(
             map((element: any) =>
             {
-                const data  = element.map((item: any) => this.transform(item))
+                const data  = element.map((item: any) => this.transform(item));
                 const pagination = {
                     total: paginator.getTotal(),
                     offset: paginator.getOffset(),
@@ -48,11 +48,11 @@ export abstract class Transformer<T, P>
                     nextUrl: paginator.getNextUrl(),
                     prevUrl: paginator.getPrevUrl(),
                     currentUrl: paginator.getCurrentUrl()
-                }
+                };
 
                 return {
                     data,
-                    ...( paginator.getExist() ? { pagination } : {})
+                    ...(paginator.getExist() ? { pagination } : {})
                 };
             })
         );

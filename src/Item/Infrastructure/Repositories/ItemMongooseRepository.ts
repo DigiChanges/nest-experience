@@ -14,7 +14,7 @@ import { IPaginator } from '@shared/Criteria/IPaginator';
 import MongoosePaginator from '../../../Shared/Utils/MongoosePaginator';
 
 @Injectable()
-class ItemMongooseRepository extends BaseMongooseRepository<IItemDomain, ItemMongooseDocument> implements IItemRepository
+class ItemMongooseRepository extends BaseMongooseRepository<IItemDomain> implements IItemRepository
 {
     constructor(@InjectModel('Item') itemModel: Model<ItemMongooseDocument>)
     {

@@ -41,7 +41,7 @@ class Pagination implements IPagination
         {
             const offset = this.offset + this.limit;
 
-            url = this.url
+            url = this.url;
             const searchValue = `pagination[offset]=${this.pagination.offset}`;
             const newValue = `pagination[offset]=${offset}`;
 
