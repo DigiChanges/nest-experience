@@ -17,6 +17,7 @@ import { EnvConfig, EnvSchema } from '@src/Config/EnvConfig';
     }),
     CqrsModule.forRoot(),
     MongooseModule.forRootAsync({
+      imports: [],
       useFactory: async(config: ConfigService) => ({
         uri: config.get('DB_URI', 'mongodb://experience:experience@localhost:27018/experience')
       }),
