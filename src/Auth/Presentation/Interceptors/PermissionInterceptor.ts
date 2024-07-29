@@ -31,23 +31,21 @@ export class PermissionsInterceptor implements NestInterceptor {
         if (!authorizationHeader) {
           throw new TokenNotFoundHttpException();
         }
-
         const token = authorizationHeader.split(' ')[1];
         const decode = this.authorizeService.decodeToken(token);
         const permission = this.reflector.getAllAndOverride(PERMISSION, [
           context.getHandler()
         ]);
-
         await this.authorizeService.authorize(decode.sub, permission);
-
         request['user'] = await this.authorizeService.getAuthUser(token);
-
         return next
-          .handle();
+            .handle();
       }
       catch {
         throw new UnauthorizedException();
       }
+    } else {
+      return next.handle();
     }
   }
 }
