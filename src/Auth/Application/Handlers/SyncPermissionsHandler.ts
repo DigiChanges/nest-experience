@@ -5,12 +5,16 @@ import { Inject, Logger } from '@nestjs/common';
 import Roles from '../../../Config/Roles';
 import IAuthRepository from '../../Domain/Repositories/IAuthRepository';
 import AuthSupabaseRepository from '../../Infrastructure/Repositories/AuthSupabaseRepository';
-class SyncPermissionsHandler
+import {CommandHandler, ICommandHandler} from "@nestjs/cqrs";
+import SyncPermissionsCommand from "@src/Auth/Application/Commands/SyncPermissionsCommand";
+
+@CommandHandler(SyncPermissionsCommand)
+class SyncPermissionsHandler implements ICommandHandler<SyncPermissionsCommand>
 {
   // TODO: Analyze why it doesnt work witouth the @Inyect.
   constructor(@Inject(IAuthRepository) private repository: AuthSupabaseRepository) {}
 
-  async handle(): Promise<void>
+  async execute(): Promise<void>
   {
     const currentDomainPermissions: IPermissionDomain[] = await this.repository.getPermissions();
     const currentPermissions: string[] = currentDomainPermissions.map((permission: IPermissionDomain) => permission.name);

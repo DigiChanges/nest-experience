@@ -1,6 +1,6 @@
-import PermissionHandler from './PermissionHandler';
+import GetPermissionHandler from './GetPermissionHandler';
 import SyncPermissionsHandler from './SyncPermissionsHandler';
 export const QueryHandlers = [
-  PermissionHandler,
+  GetPermissionHandler,
   SyncPermissionsHandler
 ];

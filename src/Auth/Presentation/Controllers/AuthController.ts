@@ -3,26 +3,27 @@ import {
   Get,
   Controller
 } from '@nestjs/common';
-import SyncPermissionsHandler from '../../Application/Handlers/SyncPermissionsHandler';
-import PermissionHandler from '../../Application/Handlers/PermissionHandler';
 import PermissionsTransformer from '../Transformers/PermissionsTransformer';
 import Permissions from '../../../Config/Permissions';
 import AllowedPermission from '../Decorators/PermissionDecorator';
 import Transform from '@shared/Transformers/TransformDecorator';
+import {CommandBus, QueryBus} from "@nestjs/cqrs";
+import GetPermissionsQuery from "@src/Auth/Application/Queries/GetPermissionsQuery";
+import SyncPermissionsCommand from "@src/Auth/Application/Commands/SyncPermissionsCommand";
 
 @Controller('auth')
 class AuthController
 {
   constructor(
-      private readonly syncRolesPermissionHandler: SyncPermissionsHandler,
-      private readonly permissionHandler: PermissionHandler
+      private queryBus: QueryBus,
+      private commandBus: CommandBus
   ) {}
 
   @Post('/')
   @AllowedPermission(Permissions.AUTH_SYNC_PERMISSIONS)
   async syncRolesPermission()
 {
-    await this.syncRolesPermissionHandler.handle();
+    await this.commandBus.execute(new SyncPermissionsCommand())
 
     return {
       message: 'Sync Successfully'
@@ -33,8 +34,8 @@ class AuthController
   @AllowedPermission(Permissions.AUTH_GET_PERMISSIONS)
   @Transform(PermissionsTransformer)
   async getPermissions()
-{
-    return await this.permissionHandler.handle();
+  {
+    return this.queryBus.execute(new GetPermissionsQuery());
   }
 }
 export default AuthController;
