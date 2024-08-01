@@ -11,8 +11,7 @@ import SyncPermissionsCommand from "@src/Auth/Application/Commands/SyncPermissio
 @CommandHandler(SyncPermissionsCommand)
 class SyncPermissionsHandler implements ICommandHandler<SyncPermissionsCommand>
 {
-  // TODO: Analyze why it doesnt work witouth the @Inyect.
-  constructor(@Inject(IAuthRepository) private repository: AuthSupabaseRepository) {}
+  constructor(private repository: IAuthRepository) {}
 
   async execute(): Promise<void>
   {
@@ -55,7 +54,6 @@ class SyncPermissionsHandler implements ICommandHandler<SyncPermissionsCommand>
     {
       await this.repository.addRoles(rolesToInsert);
     }
-
     Logger.log('Add new roles successfully.');
   }
 
