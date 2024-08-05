@@ -29,9 +29,6 @@ export default defineConfig({
             } : {})
         },
         testTimeout: 16000,
-        setupFiles: [
-            'dotenv/config'
-        ],
         include: ['src/**/*.spec.ts'],
         exclude: ['src/**/__mocks__/*', 'src/**/__stubs__/*'],
         maxWorkers: "70%",

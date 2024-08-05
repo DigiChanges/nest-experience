@@ -16,6 +16,7 @@
     "target": "esnext",
     "types": [
       "node",
+      "jest"
     ],
     "typeRoots": [
       "./node_modules/@types"
@@ -35,5 +36,5 @@
       "@src/*": ["src/*"],
       "@shared/*": ["src/Shared/*"],
     }
-  }
+  },
 }
