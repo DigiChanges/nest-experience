@@ -35,6 +35,7 @@
     "esModuleInterop": true,
     "paths": {
       "@src/*": ["src/*"],
+      "@shared/*": ["src/Shared/*"]
     }
   }
 }

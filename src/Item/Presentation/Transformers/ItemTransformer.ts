@@ -1,5 +1,5 @@
 import IItemDomain from '../../Domain/Entities/IItemDomain';
-import { Transformer } from '@src/Shared/Transformers';
+import { Transformer } from '@shared/Transformers';
 import IItemTransformer from './IItemTransformer';
 
 class ItemTransformer extends Transformer<IItemDomain, IItemTransformer>

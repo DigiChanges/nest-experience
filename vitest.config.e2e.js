@@ -2,7 +2,8 @@ import swc from 'unplugin-swc';
 import { defineConfig } from 'vitest/config';
 
 const alias  =  {
-    '@src': 'src'
+    '@src': 'src',
+    '@shared': 'src/Shared/*'
 };
 
 export default defineConfig({

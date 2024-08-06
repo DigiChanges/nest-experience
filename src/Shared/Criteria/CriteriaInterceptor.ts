@@ -6,10 +6,10 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
-import { RequestCriteria } from '@src/Shared/Criteria/RequestCriteria';
+import { RequestCriteria } from '@shared/Criteria/RequestCriteria';
 import { ParsedQs } from 'qs';
-import Pagination from '@src/Shared/Utils/Pagination';
-import { CRITERIAS } from '@src/Shared/Criteria/CriteriasDecorator';
+import Pagination from '@shared/Utils/Pagination';
+import { CRITERIAS } from '@shared/Criteria/CriteriasDecorator';
 
 @Injectable()
 class CriteriaInterceptor implements NestInterceptor

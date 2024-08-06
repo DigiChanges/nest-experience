@@ -17,7 +17,8 @@
     "keepClassNames": true,
     "baseUrl": "./",
     "paths": {
-     "@src/*": ["./src/*"],
+      "@src/*": ["./src/*"],
+      "@shared/*": ["src/Shared/*"]
     },
   },
   "minify": false,

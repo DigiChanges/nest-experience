@@ -1,5 +1,5 @@
-import IdPayload from '../../../Shared/Payloads/IdPayload';
-import Query from '@src/Shared/Queries/Query';
+import Query from '@shared/Queries/Query';
+import IdPayload from '@shared/Payloads/IdPayload';
 
 class GetItemQuery extends Query<IdPayload> { }
 

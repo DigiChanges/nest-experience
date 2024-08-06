@@ -1,5 +1,5 @@
 import ItemRepPayload from '../../Domain/Payloads/ItemRepPayload';
-import Command from '@src/Shared/Commands/Command';
+import Command from '@shared/Commands/Command';
 
 class SaveItemCommand extends Command<ItemRepPayload> {}
 

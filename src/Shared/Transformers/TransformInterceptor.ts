@@ -1,9 +1,9 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { Reflector } from '@nestjs/core';
-import { Transformer } from '@src/Shared/Transformers/index';
-import { TRANSFORM_TYPE_CLASS } from '@src/Shared/Transformers/TransformDecorator';
-import { PAGINATE_DATA } from '@src/Shared/Criteria/PaginateDecorator';
+import { Transformer } from '@shared/Transformers/index';
+import { TRANSFORM_TYPE_CLASS } from '@shared/Transformers/TransformDecorator';
+import { PAGINATE_DATA } from '@shared/Criteria/PaginateDecorator';
 
 
 @Injectable()

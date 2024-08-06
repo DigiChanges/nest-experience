@@ -18,14 +18,14 @@ import ItemUpdatePayload from '../../Domain/Payloads/ItemUpdatePayload';
 import UpdateItemCommand from '../../Application/Commands/UpdateItemCommand';
 import RemoveItemCommand from '../../Application/Commands/RemoveItemCommand';
 import ListItemQuery from '../../Application/Queries/ListItemQuery';
-import { Criteria } from '@src/Shared/Criteria/CriteriaDecorator';
-import { ICriteria } from '@src/Shared/Criteria/ICriteria';
-import Transform from '@src/Shared/Transformers/TransformDecorator';
-import Paginate from '@src/Shared/Criteria/PaginateDecorator';
+import { Criteria } from '@shared/Criteria/CriteriaDecorator';
+import { ICriteria } from '@shared/Criteria/ICriteria';
+import Transform from '@shared/Transformers/TransformDecorator';
+import Paginate from '@shared/Criteria/PaginateDecorator';
 import ItemFilter from '@src/Item/Presentation/Criterias/ItemFilter';
 import ItemSort from '@src/Item/Presentation/Criterias/ItemSort';
-import Criterias from '@src/Shared/Criteria/CriteriasDecorator';
-import { IPaginator } from '@src/Shared/Criteria/IPaginator';
+import Criterias from '@shared/Criteria/CriteriasDecorator';
+import { IPaginator } from '@shared/Criteria/IPaginator';
 
 @Controller('items')
 class ItemController

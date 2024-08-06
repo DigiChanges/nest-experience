@@ -6,7 +6,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { AuthModule } from '@src/Auth/AuthModule';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EnvConfig, EnvSchema } from '@src/Config/EnvConfig';
-import { SharedModule } from '@src/Shared/SharedModule';
+import { SharedModule } from '@shared/SharedModule';
 
 @Module({
   imports: [

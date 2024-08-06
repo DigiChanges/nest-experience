@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { QueryHandlers } from './Application/Handlers';
 import AuthSupabaseRepository from './Infrastructure/Repositories/AuthSupabaseRepository';
 import IAuthRepository from './Domain/Repositories/IAuthRepository';
-import { SharedModule } from '@src/Shared/SharedModule';
+import { SharedModule } from '@shared/SharedModule';
 import AuthController from './Presentation/Controllers/AuthController';
 import IAuthorizeService from './Domain/Services/IAuthorizeService';
 import AuthorizeSupabaseService from './Domain/Services/AuthorizeSupabaseService';

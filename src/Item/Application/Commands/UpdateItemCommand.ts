@@ -1,5 +1,5 @@
 import ItemUpdatePayload from '@src/Item/Domain/Payloads/ItemUpdatePayload';
-import Command from '@src/Shared/Commands/Command';
+import Command from '@shared/Commands/Command';
 
 class UpdateItemCommand extends Command<ItemUpdatePayload> {}
 

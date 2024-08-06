@@ -1,8 +1,8 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import IAuthRepository from '../../Domain/Repositories/IAuthRepository';
 import PermissionPayload from '../../Domain/Payloads/PermissionPayload';
-import { ErrorHttpException } from '@src/Shared/Exceptions/ErrorHttpException';
-import { StatusCode } from '@src/Shared/Utils/StatusCode';
+import { ErrorHttpException } from '@shared/Exceptions/ErrorHttpException';
+import { StatusCode } from '@shared/Utils/StatusCode';
 import IUserDomain from '../../Domain/Entities/IUserDomain';
 import IPermissionDomain from '../../Domain/Entities/IPermissionDomain';
 import IRoleDomain from '../../Domain/Entities/IRoleDomain';

@@ -1,6 +1,6 @@
 import { applyDecorators, SetMetadata, UseInterceptors } from '@nestjs/common';
-import { Transformer } from '@src/Shared/Transformers/index';
-import TransformInterceptor from '@src/Shared/Transformers/TransformInterceptor';
+import { Transformer } from '@shared/Transformers/index';
+import TransformInterceptor from '@shared/Transformers/TransformInterceptor';
 
 export const TRANSFORM_TYPE_CLASS = 'TRANSFORM_TYPE_CLASS';
 
