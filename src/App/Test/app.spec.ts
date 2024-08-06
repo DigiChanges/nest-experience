@@ -1,18 +1,18 @@
-import { afterAll, expect } from 'vitest';
-import TestAgent from 'supertest/lib/agent';
-import { ItemModule } from '@src/Item/ItemModule';
-import { getTestAgent } from '@src/Config/TestConfig';
+import { AppModule } from '@src/App/AppModule';
+import { expect } from 'vitest';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import TestAgent from 'supertest/lib/agent';
 import { SharedModule } from '@shared/SharedModule';
+import { getTestAgent } from '@src/Config/TestConfig';
 
-describe('ItemModule (e2e)', () =>
+describe('AppController (e2e)', () =>
 {
   let app: NestFastifyApplication;
   let agent: TestAgent;
 
   beforeEach(async() =>
   {
-    const config = await getTestAgent(SharedModule, ItemModule);
+    const config = await getTestAgent(SharedModule, AppModule);
     app = config.app;
     agent = config.agent;
   });
@@ -24,8 +24,9 @@ describe('ItemModule (e2e)', () =>
 
   test('/ (GET)', async() =>
   {
-    const response = await agent.get('/api/items');
+    const response = await agent.get('/');
 
     expect(response.statusCode).toEqual(200);
+    expect(response.body.message).toEqual('Welcome to Nest Experience');
   });
 });
