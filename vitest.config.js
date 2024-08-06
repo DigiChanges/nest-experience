@@ -3,8 +3,7 @@ import { defineConfig } from 'vitest/config';
 const check = process.argv.includes('--CHECK');
 
 const alias  =  {
-    '@src': 'src',
-    '@shared': 'src/Shared/*'
+    '@src': 'src'
 };
 
 export default defineConfig({
