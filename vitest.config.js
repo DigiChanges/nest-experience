@@ -1,12 +1,10 @@
 import swc from 'unplugin-swc';
 import { defineConfig } from 'vitest/config';
-import * as process from 'process';
-
 const check = process.argv.includes('--CHECK');
 
 const alias  =  {
-    '@src': './src',
-    '@shared': './src/Shared',
+    '@src': 'src',
+    '@shared': 'src/Shared/*'
 };
 
 export default defineConfig({
@@ -25,13 +23,12 @@ export default defineConfig({
                 statements: '75',
                 branches: '50',
                 functions: '50',
-                lines: '75',
+                lines: '75'
             } : {})
         },
         testTimeout: 16000,
         include: ['src/**/*.spec.ts'],
-        exclude: ['src/**/__mocks__/*', 'src/**/__stubs__/*'],
-        maxWorkers: "70%",
+        exclude: ['src/**/__mocks__/*', 'src/**/__stubs__/*']
     },
     resolve: {
         alias

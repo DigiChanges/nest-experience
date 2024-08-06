@@ -1,4 +1,4 @@
-import { MapCriteria } from '@shared/Criteria/MapCriteria';
+import { MapCriteria } from '@src/Shared/Criteria/MapCriteria';
 
 class ItemFilter extends MapCriteria
 {

@@ -1,5 +1,5 @@
 import { ItemSchemaSaveValidation } from './ItemSchemaSaveValidation';
-import { IdSchemaValidation } from '@shared/Validations/IdSchemaValidation';
+import { IdSchemaValidation } from '@src/Shared/Validations/IdSchemaValidation';
 
 const ItemSchemaUpdateValidation = ItemSchemaSaveValidation.merge(IdSchemaValidation);
 

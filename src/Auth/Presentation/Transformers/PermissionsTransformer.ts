@@ -1,4 +1,4 @@
-import { Transformer } from '@shared/Transformers';
+import { Transformer } from '@src/Shared/Transformers';
 import IPermissionsTransformer from './IPermissionsTransformer';
 import IGroupPermissions from '../../../Config/IGroupPermissions';
 

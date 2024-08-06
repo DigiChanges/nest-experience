@@ -2,7 +2,7 @@ import GetItemQuery from '../Queries/GetItemQuery';
 import IItemDomain from '../../Domain/Entities/IItemDomain';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import ValidatedHandler from '../../../Shared/Handlers/ValidatedHandler';
-import { IdSchemaValidation } from '@shared/Validations/IdSchemaValidation';
+import { IdSchemaValidation } from '@src/Shared/Validations/IdSchemaValidation';
 import IItemRepository from '../../Domain/Repositories/IItemRepository';
 import IdPayload from '../../../Shared/Payloads/IdPayload';
 

@@ -8,9 +8,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import ItemFilter from '../../Presentation/Criterias/ItemFilter';
-import { ICriteria } from '@shared/Criteria/ICriteria';
+import { ICriteria } from '@src/Shared/Criteria/ICriteria';
 import BaseMongooseRepository from '../../../Shared/Repositories/BaseMongooseRepository';
-import { IPaginator } from '@shared/Criteria/IPaginator';
+import { IPaginator } from '@src/Shared/Criteria/IPaginator';
 import MongoosePaginator from '../../../Shared/Utils/MongoosePaginator';
 
 @Injectable()

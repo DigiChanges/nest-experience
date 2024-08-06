@@ -1,5 +1,5 @@
 import { IPagination } from './IPagination';
-import { IMapCriteria } from '@shared/Criteria/IMapCriteria';
+import { IMapCriteria } from '@src/Shared/Criteria/IMapCriteria';
 
 export interface ICriteria
 {

@@ -1,7 +1,7 @@
 import { ICriteria } from './ICriteria';
 import { IPagination } from './IPagination';
 import { IRequestCriteria } from './IRequestCriteria';
-import { IMapCriteria } from '@shared/Criteria/IMapCriteria';
+import { IMapCriteria } from '@src/Shared/Criteria/IMapCriteria';
 
 export class RequestCriteria implements ICriteria
 {

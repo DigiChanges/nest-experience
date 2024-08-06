@@ -1,5 +1,6 @@
-import { ICriteria } from '@shared/Criteria/ICriteria';
-import Query from '@shared/Queries/Query';
+import Query from '@src/Shared/Queries/Query';
+import { ICriteria } from '@src/Shared/Criteria/ICriteria';
+
 
 class ListItemQuery extends Query<ICriteria> { }
 

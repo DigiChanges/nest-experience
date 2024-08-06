@@ -1,21 +1,20 @@
 import swc from 'unplugin-swc';
 import { defineConfig } from 'vitest/config';
 
+const alias  =  {
+    '@src': 'src'
+};
+
 export default defineConfig({
     test: {
         include: ['**/*.e2e-spec.ts'],
         globals: true,
-        alias: {
-            '@src': './src',
-            '@test': './test'
-        },
+        environment: 'node',
+        alias,
         root: './'
     },
     resolve: {
-        alias: {
-            '@src': './src',
-            '@test': './test'
-        }
+        alias
     },
     plugins: [swc.vite()]
 });

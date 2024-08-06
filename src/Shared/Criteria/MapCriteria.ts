@@ -1,5 +1,5 @@
 import { ParsedQs } from 'qs';
-import { IMapCriteria } from '@shared/Criteria/IMapCriteria';
+import { IMapCriteria } from '@src/Shared/Criteria/IMapCriteria';
 
 export abstract class MapCriteria implements IMapCriteria
 {

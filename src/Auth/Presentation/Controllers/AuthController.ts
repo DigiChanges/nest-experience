@@ -6,10 +6,10 @@ import {
 import PermissionsTransformer from '../Transformers/PermissionsTransformer';
 import Permissions from '../../../Config/Permissions';
 import AllowedPermission from '../Decorators/PermissionDecorator';
-import Transform from '@shared/Transformers/TransformDecorator';
-import {CommandBus, QueryBus} from "@nestjs/cqrs";
-import GetPermissionsQuery from "@src/Auth/Application/Queries/GetPermissionsQuery";
-import SyncPermissionsCommand from "@src/Auth/Application/Commands/SyncPermissionsCommand";
+import Transform from '@src/Shared/Transformers/TransformDecorator';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import GetPermissionsQuery from '@src/Auth/Application/Queries/GetPermissionsQuery';
+import SyncPermissionsCommand from '@src/Auth/Application/Commands/SyncPermissionsCommand';
 
 @Controller('auth')
 class AuthController
@@ -23,7 +23,7 @@ class AuthController
   @AllowedPermission(Permissions.AUTH_SYNC_PERMISSIONS)
   async syncRolesPermission()
 {
-    await this.commandBus.execute(new SyncPermissionsCommand())
+    await this.commandBus.execute(new SyncPermissionsCommand());
 
     return {
       message: 'Sync Successfully'
