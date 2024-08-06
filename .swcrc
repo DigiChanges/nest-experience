@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/swcrc",
   "sourceMaps": true,
   "module": {
-    "type": "commonjs"
+   "type": "es6",
   },
   "jsc": {
     "parser": {
@@ -17,10 +17,8 @@
     "keepClassNames": true,
     "baseUrl": "./",
     "paths": {
-     "@src/*": ["./src/*"],
-     "@config/*": ["./src/config/*"],
-     "@shared/*": ["./src/shared/*"],
-     "@modules/*": ["./src/modules/*"],
+      "@src/*": ["./src/*"],
+      "@shared/*": ["src/Shared/*"]
     },
   },
   "minify": false,

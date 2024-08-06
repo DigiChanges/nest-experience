@@ -7,13 +7,14 @@
     "skipDefaultLibCheck": true,
     "inlineSourceMap": false,
     "useUnknownInCatchVariables": true,
-    "module": "commonjs",
+    "module": "ESNext",
     "declaration": true,
+    "moduleResolution": "nodenext",
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "esnext",
+    "target": "es2016",
     "types": [
       "node",
       "jest"
@@ -34,7 +35,7 @@
     "esModuleInterop": true,
     "paths": {
       "@src/*": ["src/*"],
-      "@shared/*": ["src/Shared/*"],
+      "@shared/*": ["src/Shared/*"]
     }
-  },
+  }
 }
