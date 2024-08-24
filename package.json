@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "nest build",
+    "cruiser": "depcruise src",
     "start": "nest start",
     "start:dev": "nest start -w",
     "start:dev:check": "nest start --type-check -w",
@@ -37,6 +38,7 @@
     "@nestjs/platform-fastify": "^10.3.10",
     "@supabase/supabase-js": "^2.44.4",
     "dayjs": "^1.11.11",
+    "dependency-cruiser": "^16.4.0",
     "fastify-qs": "^4.0.2",
     "joi": "^17.13.3",
     "jwt-simple": "^0.5.6",

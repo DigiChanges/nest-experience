@@ -77,7 +77,7 @@ services:
       memlock: -1
     container_name: experience_cache_1
     ports:
-      - "6379:6379"
+      - "6380:6379"
     environment:
       - DRAGONFLY_USER=experience
       - DRAGONFLY_PASSWORD=ewsua132435

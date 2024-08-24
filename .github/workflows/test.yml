@@ -1,0 +1,84 @@
+name: Test
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+    paths-ignore:
+      - ".github/**"
+      - "tools/**"
+      - "architecture/**"
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Read .nvmrc
+        shell: bash
+        run: echo "NVMRC=$(cat .nvmrc)" >> "$GITHUB_OUTPUT"
+        id: nvm
+
+      - name: Setup Node JS using .nvmrc
+        uses: actions/setup-node@v4
+        with:
+          node-version: "${{ steps.nvm.outputs.nvmrc }}"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install Dependencies with PNPM
+        run: pnpm install
+
+      - name: Fetch secrets from Infisical
+        uses: Infisical/infisical-actions@v2
+        with:
+          machineId: ${{ secrets.INFISICAL_MACHINE_ID }}
+          clientId: ${{ secrets.INFISICAL_CLIENT_ID }}
+          clientSecret: ${{ secrets.INFISICAL_CLIENT_SECRET }}
+          environment: prod
+          projectId: 5a70ab7b-e5bf-4d42-9026-318fa191512b
+
+      - name: Type Check
+        run: pnpm ts:check
+
+      - name: Build
+        run: pnpm build
+
+      - name: Check Dependency Cruiser
+        run: pnpm cruiser
+
+      - name: Lint Check
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+
+      - name: SonarQube Quality Check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
