@@ -46,7 +46,6 @@ describe('ItemModule (e2e)', () =>
   {
     const response = await agent.get('/api/items?pagination[offset]=0&pagination[limit]=5');
     const { body: { data, pagination } } = response;
-    console.log(pagination);
     expect(response.statusCode).toEqual(200);
     expect(data.length).toEqual(0);
     expect(pagination.total).toEqual(0);
