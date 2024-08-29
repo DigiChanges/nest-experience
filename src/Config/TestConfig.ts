@@ -13,7 +13,7 @@ import qs from 'fastify-qs';
 import { ModuleDefinition } from '@nestjs/core/interfaces/module-definition.interface';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
-type TestAgentType = { agent: TestAgent, app: NestFastifyApplication };
+type TestAgentType = { agent: TestAgent, app: NestFastifyApplication, mongoServer: MongoMemoryServer };
 
 export async function getTestAgent(...modules: ModuleDefinition[]): Promise<TestAgentType>
 {
@@ -49,6 +49,7 @@ export async function getTestAgent(...modules: ModuleDefinition[]): Promise<Test
 
   return {
     agent: request(app.getHttpServer()),
-    app
+    app,
+    mongoServer
   };
 }

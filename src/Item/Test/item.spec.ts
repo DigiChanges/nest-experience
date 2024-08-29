@@ -14,10 +14,10 @@ describe('ItemModule (e2e)', () =>
 
   beforeEach(async() =>
   {
-    mongoServer = await MongoMemoryServer.create();
     const config = await getTestAgent(SharedModule, ItemModule);
     app = config.app;
     agent = config.agent;
+    mongoServer = config.mongoServer;
   });
 
   afterAll(async() =>
