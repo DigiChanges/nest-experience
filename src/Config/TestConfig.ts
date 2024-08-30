@@ -13,11 +13,11 @@ import qs from 'fastify-qs';
 import { ModuleDefinition } from '@nestjs/core/interfaces/module-definition.interface';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
-type TestAgentType = { agent: TestAgent, app: NestFastifyApplication, mongoServer: MongoMemoryServer };
+export type TestAgentType = { agent: TestAgent, app: NestFastifyApplication, mongoServer: MongoMemoryServer };
 
 export async function getTestAgent(...modules: ModuleDefinition[]): Promise<TestAgentType>
 {
-  const mongoServer = await MongoMemoryServer.create();
+  let mongoServer: MongoMemoryServer;
 
   const moduleFixture: TestingModule = await Test.createTestingModule({
     imports: [
@@ -28,9 +28,14 @@ export async function getTestAgent(...modules: ModuleDefinition[]): Promise<Test
       }),
       CqrsModule.forRoot(),
       MongooseModule.forRootAsync({
-        useFactory: async() => ({
-          uri: mongoServer.getUri()
-        })
+        useFactory: async() =>
+        {
+          mongoServer = await MongoMemoryServer.create();
+          const mongoUri = mongoServer.getUri();
+          return {
+            uri: mongoUri
+          };
+        }
       }),
       ...modules
     ]
