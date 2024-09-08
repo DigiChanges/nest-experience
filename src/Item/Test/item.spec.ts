@@ -17,7 +17,7 @@ describe('ItemModule (e2e)', () =>
   let itemId: string;
 
   beforeAll(async() =>
-  {
+{
     config = await getTestAgent(SharedModule, ItemModule);
     app = config.app;
     agent = config.agent;
@@ -25,7 +25,7 @@ describe('ItemModule (e2e)', () =>
   });
 
   afterAll(async() =>
-  {
+{
     await app.close();
     await mongoServer.stop();
   });
@@ -130,20 +130,17 @@ describe('ItemModule (e2e)', () =>
       expect(data[0].description).toStrictEqual(10);
     });
 
-    test('Get Items /items with Sort Desc Type', async() =>
+    test('Get Items /items with Sort Asc Description', async() =>
     {
       const response = await agent
-        .get('/api/items?pagination[limit]=20&pagination[offset]=0&sort[description]=desc')
+        .get('/api/items?pagination[limit]=20&pagination[offset]=0&sort[description]=asc')
         .send();
-
-      // TODO: See why is not ordered desc.
 
       const { body: { data: [item1, item2] } } = response;
 
-      //
-      // expect(response.statusCode).toStrictEqual(200);
-      //
-      // expect(item1.description).toBeGreaterThanOrEqual(item2.description);
+      expect(response.statusCode).toStrictEqual(200);
+
+      expect(item1.description).toBeLessThanOrEqual(item2.description);
     });
   });
 
@@ -186,7 +183,7 @@ describe('ItemModule (e2e)', () =>
     {
       const payload = {
         name: 11,
-        type: 'asdasd'
+        description: 'asdasd'
       };
 
       const response = await agent
@@ -209,7 +206,7 @@ describe('ItemModule (e2e)', () =>
 
         if (index === 1)
         {
-          expect(el.message).toStrictEqual('Required');
+          expect(el.message).toStrictEqual('Expected number, received string');
         }
       });
     });
