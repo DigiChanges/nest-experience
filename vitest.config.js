@@ -4,7 +4,12 @@ const check = process.argv.includes('--CHECK');
 
 const alias  =  {
     '@src': 'src',
-    '@shared': 'src/Shared/*'
+    '@shared': 'src/Shared/*',
+    '@app/*': ['src/App/*'],
+    '@auth/*': ['src/Auth/*'],
+    '@config/*': ['src/Config/*'],
+    '@file/*': ['src/File/*'],
+    '@item/*': ['src/Item/*']
 };
 
 export default defineConfig({

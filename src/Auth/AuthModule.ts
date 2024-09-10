@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
-import { QueryHandlers } from './Application/Handlers';
-import AuthSupabaseRepository from './Infrastructure/Repositories/AuthSupabaseRepository';
-import IAuthRepository from './Domain/Repositories/IAuthRepository';
-import { SharedModule } from '@shared/SharedModule';
-import AuthController from './Presentation/Controllers/AuthController';
-import IAuthorizeService from './Domain/Services/IAuthorizeService';
-import AuthorizeSupabaseService from './Domain/Services/AuthorizeSupabaseService';
 import { ConfigService } from '@nestjs/config';
+import { SharedModule } from '@shared/SharedModule';
+
+import { QueryHandlers } from './Application/Handlers';
+import IAuthRepository from './Domain/Repositories/IAuthRepository';
+import AuthorizeSupabaseService from './Domain/Services/AuthorizeSupabaseService';
+import IAuthorizeService from './Domain/Services/IAuthorizeService';
+import AuthSupabaseRepository from './Infrastructure/Repositories/AuthSupabaseRepository';
+import AuthController from './Presentation/Controllers/AuthController';
+
 
 @Module({
   imports: [SharedModule],

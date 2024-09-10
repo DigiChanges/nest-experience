@@ -1,13 +1,15 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import IAuthRepository from '../../Domain/Repositories/IAuthRepository';
-import PermissionPayload from '../../Domain/Payloads/PermissionPayload';
+import { Injectable } from '@nestjs/common';
 import { ErrorHttpException } from '@shared/Exceptions/ErrorHttpException';
 import { StatusCode } from '@shared/Utils/StatusCode';
-import IUserDomain from '../../Domain/Entities/IUserDomain';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+
 import IPermissionDomain from '../../Domain/Entities/IPermissionDomain';
 import IRoleDomain from '../../Domain/Entities/IRoleDomain';
 import IRolePermissionDomain from '../../Domain/Entities/IRolePermissionDomain';
-import { Injectable } from '@nestjs/common';
+import IUserDomain from '../../Domain/Entities/IUserDomain';
+import PermissionPayload from '../../Domain/Payloads/PermissionPayload';
+import IAuthRepository from '../../Domain/Repositories/IAuthRepository';
+
 
 type AuthSupabaseConfig = {
     authHost: string;

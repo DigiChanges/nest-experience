@@ -1,13 +1,14 @@
-import UpdateItemCommand from '../Commands/UpdateItemCommand';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import IItemRepository from '../../Domain/Repositories/IItemRepository';
-import ValidatedHandler from '../../../Shared/Handlers/ValidatedHandler';
-import ItemSchemaUpdateValidation from '../Validations/ItemSchemaUpdateValidation';
-import ItemUpdatePayload from '../../Domain/Payloads/ItemUpdatePayload';
+import ValidatedHandler from '@shared/Validations/ValidatedHandler';
+
 import IItemDomain from '../../Domain/Entities/IItemDomain';
+import ItemUpdatePayload from '../../Domain/Payloads/ItemUpdatePayload';
+import IItemRepository from '../../Domain/Repositories/IItemRepository';
+import UpdateItemCommand from '../Commands/UpdateItemCommand';
+import ItemSchemaUpdateValidation from '../Validations/ItemSchemaUpdateValidation';
 
 @CommandHandler(UpdateItemCommand)
-class UpdateItemHandler extends ValidatedHandler<UpdateItemCommand> implements ICommandHandler<UpdateItemCommand>
+class UpdateItemHandler extends ValidatedHandler<UpdateItemCommand, void> implements ICommandHandler<UpdateItemCommand>
 {
     constructor(private repository: IItemRepository)
     {

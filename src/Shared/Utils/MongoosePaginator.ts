@@ -1,7 +1,8 @@
 import { Query } from 'mongoose';
+
 import { BasePaginator } from '../Criteria';
-import { IPaginator } from '../Criteria/IPaginator';
 import { ICriteria } from '../Criteria/ICriteria';
+import { IPaginator } from '../Criteria/IPaginator';
 
 class MongoosePaginator extends BasePaginator implements IPaginator
 {
@@ -34,13 +35,12 @@ class MongoosePaginator extends BasePaginator implements IPaginator
 
     private addOrderBy()
     {
-        const sorts = this.sort.values();
+        const sorts: Map<string, unknown> = this.sort.values();
         const _objectSort = {};
 
         sorts.forEach((value: string, key: string) =>
         {
-            let order: any = value.toUpperCase();
-            order = (order === 'DESC') ? -1 : 1;
+            const order: number = (value.toUpperCase() === 'DESC') ? -1 : 1;
 
             const obj = { [key]: order };
             Object.assign(_objectSort, obj);

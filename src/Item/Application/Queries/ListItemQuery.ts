@@ -1,4 +1,4 @@
-import Query from '@shared/Queries/Query';
+import Query from '@shared/Cqrs/Query';
 import { ICriteria } from '@shared/Criteria/ICriteria';
 
 

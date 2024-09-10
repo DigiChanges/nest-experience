@@ -3,7 +3,12 @@ import { defineConfig } from 'vitest/config';
 
 const alias  =  {
     '@src': 'src',
-    '@shared': 'src/Shared/*'
+    '@shared': 'src/Shared/*',
+    '@app/*': ['src/App/*'],
+    '@auth/*': ['src/Auth/*'],
+    '@config/*': ['src/Config/*'],
+    '@file/*': ['src/File/*'],
+    '@item/*': ['src/Item/*']
 };
 
 export default defineConfig({

@@ -1,5 +1,6 @@
-import IItemDomain from './IItemDomain';
 import BaseDomain from '../../../Shared/Entities/BaseDomain';
+
+import IItemDomain from './IItemDomain';
 
 class Item extends BaseDomain implements IItemDomain
 {

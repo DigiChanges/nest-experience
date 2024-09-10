@@ -1,6 +1,7 @@
-import IByOptions from './IByOptions';
 import { ICriteria } from '../Criteria/ICriteria';
 import { IPaginator } from '../Criteria/IPaginator';
+
+import IByOptions from './IByOptions';
 
 abstract class IBaseRepository<T>
 {

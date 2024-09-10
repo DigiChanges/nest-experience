@@ -4,12 +4,12 @@ import {
   Injectable,
   NestInterceptor
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
-import { RequestCriteria } from '@shared/Criteria/RequestCriteria';
-import { ParsedQs } from 'qs';
-import Pagination from '@shared/Utils/Pagination';
 import { CRITERIAS } from '@shared/Criteria/CriteriasDecorator';
+import { RequestCriteria } from '@shared/Criteria/RequestCriteria';
+import Pagination from '@shared/Utils/Pagination';
+import { ParsedQs } from 'qs';
+import { Observable } from 'rxjs';
 
 @Injectable()
 class CriteriaInterceptor implements NestInterceptor

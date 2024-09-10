@@ -1,7 +1,9 @@
-import { IPaginator } from './IPaginator';
-import { IPagination } from './IPagination';
-import { ICriteria } from './ICriteria';
 import { IMapCriteria } from '@shared/Criteria/IMapCriteria';
+
+import { ICriteria } from './ICriteria';
+import { IPagination } from './IPagination';
+import { IPaginator } from './IPaginator';
+
 
 export abstract class BasePaginator implements IPaginator
 {
