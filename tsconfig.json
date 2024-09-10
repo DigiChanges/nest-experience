@@ -7,9 +7,9 @@
     "skipDefaultLibCheck": true,
     "inlineSourceMap": false,
     "useUnknownInCatchVariables": true,
-    "module": "ESNext",
+    "module": "NodeNext",
     "declaration": true,
-    "moduleResolution": "nodenext",
+    "moduleResolution": "NodeNext",
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -35,7 +35,12 @@
     "esModuleInterop": true,
     "paths": {
       "@src/*": ["src/*"],
-      "@shared/*": ["src/Shared/*"]
+      "@shared/*": ["src/Shared/*"],
+      "@app/*": ["src/App/*"],
+      "@auth/*": ["src/Auth/*"],
+      "@config/*": ["src/Config/*"],
+      "@file/*": ["src/File/*"],
+      "@item/*": ["src/Item/*"]
     }
   }
 }

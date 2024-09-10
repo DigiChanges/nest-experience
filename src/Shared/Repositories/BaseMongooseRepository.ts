@@ -1,19 +1,21 @@
-import IBaseDomain from '../Entities/IBaseDomain';
-import * as mongoose from 'mongoose';
-import IBaseRepository from './IBaseRepository';
 import { NotFoundException } from '@nestjs/common';
-import IByOptions from './IByOptions';
+import * as mongoose from 'mongoose';
+
 import { ICriteria } from '../Criteria/ICriteria';
 import { IPaginator } from '../Criteria/IPaginator';
-import { Model } from 'mongoose';
+import IBaseDomain from '../Entities/IBaseDomain';
+
+import IBaseRepository from './IBaseRepository';
+import IByOptions from './IByOptions';
+
 
 abstract class BaseMongooseRepository<T extends IBaseDomain> implements IBaseRepository<T>
 {
     protected readonly entityName: string;
-    protected repository: Model<T>;
+    protected repository: mongoose.Model<T>;
     protected populate: string[];
 
-    protected constructor(model: Model<T>, populate: string[] = [])
+    protected constructor(model: mongoose.Model<T>, populate: string[] = [])
     {
         this.repository = model;
         this.populate = populate;

@@ -1,8 +1,8 @@
-import PermissionPayload from '../Payloads/PermissionPayload';
-import IUserDomain from '../Entities/IUserDomain';
 import IPermissionDomain from '../Entities/IPermissionDomain';
 import IRoleDomain from '../Entities/IRoleDomain';
 import IRolePermissionDomain from '../Entities/IRolePermissionDomain';
+import IUserDomain from '../Entities/IUserDomain';
+import PermissionPayload from '../Payloads/PermissionPayload';
 
 abstract class IAuthRepository
 {

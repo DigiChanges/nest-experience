@@ -1,9 +1,9 @@
-import { AppModule } from '@src/App/AppModule';
-import { expect } from 'vitest';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
-import TestAgent from 'supertest/lib/agent';
 import { SharedModule } from '@shared/SharedModule';
+import { AppModule } from '@src/App/AppModule';
 import { getTestAgent } from '@src/Config/TestConfig';
+import TestAgent from 'supertest/lib/agent';
+import { expect } from 'vitest';
 
 describe('AppController (e2e)', () =>
 {

@@ -1,5 +1,5 @@
-import ItemRepPayload from '../Payloads/ItemRepPayload';
 import IBaseDomain from '../../../Shared/Entities/IBaseDomain';
+import ItemRepPayload from '../Payloads/ItemRepPayload';
 
 interface IItemDomain extends ItemRepPayload, IBaseDomain
 {}

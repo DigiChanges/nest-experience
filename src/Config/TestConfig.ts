@@ -1,16 +1,15 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import request from 'supertest';
-import TestAgent from 'supertest/lib/agent';
+import compression from '@fastify/compress';
+import { RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { EnvConfig, EnvSchema } from '@src/Config/EnvConfig';
+import { ModuleDefinition } from '@nestjs/core/interfaces/module-definition.interface';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SharedModule } from '@shared/SharedModule';
-import { RequestMethod } from '@nestjs/common';
-import compression from '@fastify/compress';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { Test, TestingModule } from '@nestjs/testing';
+import { EnvConfig, EnvSchema } from '@src/Config/EnvConfig';
 import qs from 'fastify-qs';
-import { ModuleDefinition } from '@nestjs/core/interfaces/module-definition.interface';
+import request from 'supertest';
+import TestAgent from 'supertest/lib/agent';
 
 type TestAgentType = { agent: TestAgent, app: NestFastifyApplication };
 

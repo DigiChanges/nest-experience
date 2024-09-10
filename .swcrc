@@ -18,7 +18,12 @@
     "baseUrl": "./",
     "paths": {
       "@src/*": ["./src/*"],
-      "@shared/*": ["src/Shared/*"]
+      "@shared/*": ["./src/Shared/*"],
+      "@app/*": ["./src/App/*"],
+      "@auth/*": ["./src/Auth/*"],
+      "@config/*": ["./src/Config/*"],
+      "@file/*": ["./src/File/*"],
+      "@item/*": ["./src/Item/*"]
     },
   },
   "minify": false,

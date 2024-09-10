@@ -3,13 +3,14 @@ import {
   Get,
   Controller
 } from '@nestjs/common';
-import PermissionsTransformer from '../Transformers/PermissionsTransformer';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import Transform from '@shared/Transformers/TransformDecorator';
+import SyncPermissionsCommand from '@src/Auth/Application/Commands/SyncPermissionsCommand';
+import GetPermissionsQuery from '@src/Auth/Application/Queries/GetPermissionsQuery';
+
 import Permissions from '../../../Config/Permissions';
 import AllowedPermission from '../Decorators/PermissionDecorator';
-import Transform from '@shared/Transformers/TransformDecorator';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import GetPermissionsQuery from '@src/Auth/Application/Queries/GetPermissionsQuery';
-import SyncPermissionsCommand from '@src/Auth/Application/Commands/SyncPermissionsCommand';
+import PermissionsTransformer from '../Transformers/PermissionsTransformer';
 
 @Controller('auth')
 class AuthController

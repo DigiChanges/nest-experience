@@ -1,11 +1,12 @@
-import { from, map } from 'rxjs';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { from, map } from 'rxjs';
+
 import { IPaginator } from '../Criteria/IPaginator';
 
 export abstract class Transformer<T, P>
 {
-    async handle(promiseData: Promise<T> | Promise<T[]>): Promise<unknown>
+    handle(promiseData: Promise<T> | Promise<T[]>): unknown
     {
         const observableData$ = from(promiseData);
 
@@ -24,7 +25,7 @@ export abstract class Transformer<T, P>
     }
 
     // TODO: Migrate to stream
-    async paginate<S>(paginator: IPaginator): Promise<any>
+    paginate(paginator: IPaginator): unknown
     {
         const observablePaginate$ = from(paginator.paginate());
 

@@ -1,4 +1,5 @@
 import * as qs from 'qs';
+
 import { IPagination } from '../Criteria/IPagination';
 
 class Pagination implements IPagination

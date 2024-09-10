@@ -1,9 +1,9 @@
-import { afterAll, expect } from 'vitest';
-import TestAgent from 'supertest/lib/agent';
-import { ItemModule } from '@src/Item/ItemModule';
-import { getTestAgent } from '@src/Config/TestConfig';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { SharedModule } from '@shared/SharedModule';
+import { getTestAgent } from '@src/Config/TestConfig';
+import { ItemModule } from '@src/Item/ItemModule';
+import TestAgent from 'supertest/lib/agent';
+import { afterAll, expect } from 'vitest';
 
 describe('ItemModule (e2e)', () =>
 {

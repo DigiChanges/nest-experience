@@ -5,15 +5,18 @@ import {
   CallHandler,
   UnauthorizedException
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import IAuthorizeService from '../../Domain/Services/IAuthorizeService';
-import { Reflector } from '@nestjs/core';
-import TokenNotFoundHttpException from '../Exceptions/TokenNotFoundHttpException';
 import { ConfigService } from '@nestjs/config';
+import { Reflector } from '@nestjs/core';
 import { PERMISSION } from '@src/Auth/Presentation/Decorators/PermissionDecorator';
+import { Observable } from 'rxjs';
+
+import IAuthorizeService from '../../Domain/Services/IAuthorizeService';
+import TokenNotFoundHttpException from '../Exceptions/TokenNotFoundHttpException';
+
 
 @Injectable()
-export class PermissionsInterceptor implements NestInterceptor {
+export class PermissionsInterceptor implements NestInterceptor
+{
   constructor(
     private readonly reflector: Reflector,
     private authorizeService: IAuthorizeService,
@@ -21,14 +24,18 @@ export class PermissionsInterceptor implements NestInterceptor {
     private configService: ConfigService
   ) {}
 
-  async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
+  async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>>
+{
     const config = this.configService.get('AUTH_AUTHORIZATION');
 
-    if (config === 'TRUE') {
-      try {
+    if (config === 'TRUE')
+{
+      try
+{
         const request = context.switchToHttp().getRequest();
         const authorizationHeader = request.headers.authorization;
-        if (!authorizationHeader) {
+        if (!authorizationHeader)
+{
           throw new TokenNotFoundHttpException();
         }
         const token = authorizationHeader.split(' ')[1];
@@ -41,10 +48,13 @@ export class PermissionsInterceptor implements NestInterceptor {
         return next
             .handle();
       }
-      catch {
+      catch
+{
         throw new UnauthorizedException();
       }
-    } else {
+    }
+ else
+{
       return next.handle();
     }
   }

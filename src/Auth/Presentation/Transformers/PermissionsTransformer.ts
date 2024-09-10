@@ -1,6 +1,8 @@
 import { Transformer } from '@shared/Transformers';
-import IPermissionsTransformer from './IPermissionsTransformer';
+
 import IGroupPermissions from '../../../Config/IGroupPermissions';
+
+import IPermissionsTransformer from './IPermissionsTransformer';
 
 class PermissionsTransformer extends Transformer<IGroupPermissions[], IPermissionsTransformer[]>
 {

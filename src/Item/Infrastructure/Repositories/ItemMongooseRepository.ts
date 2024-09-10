@@ -1,22 +1,20 @@
-import * as mongoose from 'mongoose';
-
-import IItemRepository from '../../Domain/Repositories/IItemRepository';
-
-import IItemDomain from '../../Domain/Entities/IItemDomain';
-import { ItemMongooseDocument } from '../Schemas/ItemSchema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import ItemFilter from '../../Presentation/Criterias/ItemFilter';
 import { ICriteria } from '@shared/Criteria/ICriteria';
-import BaseMongooseRepository from '../../../Shared/Repositories/BaseMongooseRepository';
 import { IPaginator } from '@shared/Criteria/IPaginator';
+import * as mongoose from 'mongoose';
+
+import BaseMongooseRepository from '../../../Shared/Repositories/BaseMongooseRepository';
 import MongoosePaginator from '../../../Shared/Utils/MongoosePaginator';
+import IItemDomain from '../../Domain/Entities/IItemDomain';
+import IItemRepository from '../../Domain/Repositories/IItemRepository';
+import ItemFilter from '../../Presentation/Criterias/ItemFilter';
+import { ItemMongooseDocument } from '../Schemas/ItemSchema';
 
 @Injectable()
 class ItemMongooseRepository extends BaseMongooseRepository<IItemDomain> implements IItemRepository
 {
-    constructor(@InjectModel('Item') itemModel: Model<ItemMongooseDocument>)
+    constructor(@InjectModel('Item') itemModel: mongoose.Model<ItemMongooseDocument>)
     {
         super(itemModel);
     }

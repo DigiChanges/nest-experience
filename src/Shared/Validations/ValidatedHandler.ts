@@ -1,14 +1,18 @@
 import { BadRequestException } from '@nestjs/common';
 import { ZodSchema } from 'zod';
 
-abstract class ValidatedHandler<T>
+interface Payload {
+    payload: unknown;
+}
+
+abstract class ValidatedHandler<T extends Payload, R>
 {
-    protected constructor(private schema: ZodSchema<any>) {}
+    protected constructor(private schema: ZodSchema) {}
 
     async validate<Q>(command: T): Promise<Q>
     {
-        const payload = (command as any).payload;
-        const validation = this.schema.safeParse(payload);
+        const payload = command.payload;
+        const validation = await this.schema.safeParseAsync(payload);
 
         if (!validation.success)
         {
@@ -18,7 +22,7 @@ abstract class ValidatedHandler<T>
         return payload as Q;
     }
 
-    abstract execute(command: T): Promise<any>;
+    abstract execute(command: T): Promise<R>;
 }
 
 export default ValidatedHandler;
