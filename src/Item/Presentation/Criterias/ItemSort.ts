@@ -3,13 +3,13 @@ import { MapCriteria } from '@shared/Criteria/MapCriteria';
 class ItemSort extends MapCriteria
 {
     static readonly NAME: string = 'name';
-    static readonly TYPE: string = 'type';
+    static readonly DESCRIPTION: string = 'description';
 
     getFields(): string[]
     {
         return [
             ItemSort.NAME,
-            ItemSort.TYPE
+            ItemSort.DESCRIPTION
         ];
     }
 
