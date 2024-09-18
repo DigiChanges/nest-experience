@@ -19,6 +19,8 @@ export interface CreateBucketPayload
 {
   bucketName: string;
   region?: string;
+  publicBucketPolicy: string;
+  privateBucketPolicy: string;
 }
 
 export interface SetBucketPolicyPayload

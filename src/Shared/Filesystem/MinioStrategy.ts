@@ -25,7 +25,7 @@ export interface MinioConfig
 @Injectable()
 export class MinioStrategy implements IFilesystem
 {
-    readonly #filesystem: Client;
+    readonly #fileSystem: Client;
     readonly #bucket: string;
     readonly #rootPath: string;
     readonly #pathTemp: string;
@@ -33,11 +33,11 @@ export class MinioStrategy implements IFilesystem
 
     constructor(config: MinioConfig)
     {
-        this.#bucket = config.bucket;
+        this.#bucket = `${config.bucket}.public`;
         this.#rootPath = config.rootPath;
         this.#region = config.region;
 
-        this.#filesystem = new Client({
+        this.#fileSystem = new Client({
             endPoint: config.endPoint,
             accessKey: config.accessKey,
             secretKey: config.secretKey,
@@ -49,13 +49,25 @@ export class MinioStrategy implements IFilesystem
 
     async createBucket(payload: CreateBucketPayload): Promise<void>
     {
-        return this.#filesystem.makeBucket(payload.bucketName, payload.region ?? this.#region);
+        const name = payload.bucketName;
+        const bucketNamePrivate = `${name}.private`;
+        const bucketNamePublic = `${name}.public`;
+
+        const region = payload.region;
+        const bucketPrivatePolicy = payload.privateBucketPolicy;
+        const bucketPublicPolicy = payload.publicBucketPolicy;
+
+        await this.#fileSystem.makeBucket(bucketNamePrivate, region);
+        await this.#fileSystem.setBucketPolicy(bucketNamePrivate, bucketPrivatePolicy);
+
+        await this.#fileSystem.makeBucket(bucketNamePublic, region);
+        await this.#fileSystem.setBucketPolicy(bucketNamePublic, bucketPublicPolicy);
     }
 
     async setBucketPolicy(payload: SetBucketPolicyPayload): Promise<void>
     {
         const name = payload.bucketName ?? this.#bucket;
-        await this.#filesystem.setBucketPolicy(name, payload.bucketPolicy);
+        await this.#fileSystem.setBucketPolicy(name, payload.bucketPolicy);
     }
 
     async uploadFile(payload: UploadFilePayload): Promise<void>
@@ -63,18 +75,18 @@ export class MinioStrategy implements IFilesystem
         const acl = payload.isPublic ? 'public-read' : 'private';
         const objectName = `${this.#rootPath}/${payload.objectPath}`;
 
-        await this.#filesystem.fPutObject(this.#bucket, objectName, payload.fileTempPath, { 'x-amz-acl': acl });
+        await this.#fileSystem.fPutObject(this.#bucket, objectName, payload.fileTempPath, { 'x-amz-acl': acl });
     }
 
     async downloadFile(object: DownloadFilePayload): Promise<Readable>
     {
         const filePath = `${this.#rootPath}/${object.objectName}`;
 
-        return await this.#filesystem.getObject(this.#bucket, filePath);
+        return await this.#fileSystem.getObject(this.#bucket, filePath);
     }
 
     async removeObject(object: RemoveFilePayload): Promise<void>
     {
-        await this.#filesystem.removeObject(this.#bucket, object.objectName);
+        await this.#fileSystem.removeObject(this.#bucket, object.objectName);
     }
 }
