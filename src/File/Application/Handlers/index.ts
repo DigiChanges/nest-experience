@@ -1,3 +1,4 @@
+import CreateBucketHandler from '@file/Application/Handlers/CreateBucketHandler';
 import DownloadFileHandler from '@file/Application/Handlers/DownloadFileHandler';
 import GetMetadataFileHandler from '@file/Application/Handlers/GetMetadataFileHandler';
 import ListFilesHandler from '@file/Application/Handlers/ListFilesHandler';
@@ -11,5 +12,6 @@ export const QueryHandlers = [
     ListFilesHandler,
     RemoveFileHandler,
     UploadFileMultipartHandler,
-    UpdateUploadFileMultipartHandler
+    UpdateUploadFileMultipartHandler,
+    CreateBucketHandler
 ];

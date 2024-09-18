@@ -1,4 +1,8 @@
+import { CreateBucketCommander } from '@file/Presentation/Commands/CreateBucketCommander';
+import CreateBucketCommandRequest from '@file/Presentation/Requests/CreateBucketCommandRepRequest';
+import ICreateBucketCommandRequest from '@file/Presentation/Requests/ICreateBucketCommandRequest';
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { QueryHandlers } from './Application/Handlers';
@@ -10,12 +14,27 @@ import FileController from './Presentation/Controllers/FileController';
 
 @Module({
   imports: [
-      MongooseModule.forFeature([{ name: File.name, schema: FileSchema }])
+    MongooseModule.forFeature([{ name: File.name, schema: FileSchema }])
   ],
   controllers: [FileController],
   providers: [
-      ...QueryHandlers,
-      { provide: IFileRepository, useClass: FileMongooseRepository }
+    CreateBucketCommander,
+    ...QueryHandlers,
+    { provide: IFileRepository, useClass: FileMongooseRepository },
+    {
+      provide: ICreateBucketCommandRequest,
+      useFactory: async(configService: ConfigService) =>
+      {
+        const config = {
+          fileSystemBucket: configService.get<string>('FILESYSTEM_BUCKET'),
+          fileSystemRegion: configService.get<string>('FILESYSTEM_REGION')
+        };
+
+        return new CreateBucketCommandRequest(config);
+      },
+      inject: [ConfigService]
+    }
   ]
 })
-export class FileModule {}
+export class FileModule
+{}

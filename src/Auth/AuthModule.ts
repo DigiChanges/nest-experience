@@ -1,3 +1,4 @@
+import { SyncRolesPermissionCommander } from '@auth/Presentation/Commands/SyncRolesPermissionCommander';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SharedModule } from '@shared/SharedModule';
@@ -10,11 +11,13 @@ import AuthSupabaseRepository from './Infrastructure/Repositories/AuthSupabaseRe
 import AuthController from './Presentation/Controllers/AuthController';
 
 
+
 @Module({
   imports: [SharedModule],
   controllers: [AuthController],
   providers: [
     ...QueryHandlers,
+    SyncRolesPermissionCommander,
     { provide: IAuthRepository,
       useFactory: async(configService: ConfigService) =>
       {

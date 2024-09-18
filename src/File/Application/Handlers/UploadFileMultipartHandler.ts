@@ -15,7 +15,8 @@ class UploadFileMultipartHandler extends ValidatedHandler<UploadFileMultipartCom
 {
     constructor(private repository: IFileRepository,
                 private filesystem: IFilesystem,
-                private service: FileService)
+                private service: FileService
+    )
     {
         super(MultipartFileSchemaValidation);
     }
