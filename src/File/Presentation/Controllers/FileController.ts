@@ -10,8 +10,10 @@ import MultipartFilePayload from '@file/Domain/Payloads/MultipartFilePayload';
 import UpdateMultipartFilePayload from '@file/Domain/Payloads/UpdateMultipartFilePayload';
 import FileFilter from '@file/Presentation/Criterias/FileFilter';
 import FileSort from '@file/Presentation/Criterias/FileSort';
+import UploadBucketRepRequestQuery from '@file/Presentation/Requests/UploadBucketRepRequest';
 import FileTransformer from '@file/Presentation/Transformers/FileTransformer';
 import { Post, Get, Controller, Param, Delete, UseInterceptors, Put, Res } from '@nestjs/common';
+import { Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Criteria } from '@shared/Criteria/CriteriaDecorator';
 import Criterias from '@shared/Criteria/CriteriasDecorator';
@@ -21,6 +23,7 @@ import Paginate from '@shared/Criteria/PaginateDecorator';
 import IdPayload from '@shared/Payloads/IdPayload';
 import Transform from '@shared/Transformers/TransformDecorator';
 import { FastifyReply } from 'fastify';
+
 
 const LIMITS_FILE_SIZE = 1024 * 1024 * 10;
 const DEST = '/tmp';
@@ -42,8 +45,12 @@ class FileController
         }
     }))
     @Transform(FileTransformer)
-    async uploadMultipart(@UploadedFile() payload: MultipartFilePayload)
+    async uploadMultipart(
+      @UploadedFile() file: MultipartFilePayload,
+      @Query() query: UploadBucketRepRequestQuery
+    )
     {
+        const payload = { ...file, ...query };
         return await this.commandBus.execute(new UploadFileMultipartCommand(payload));
     }
 

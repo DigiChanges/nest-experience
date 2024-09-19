@@ -19,7 +19,7 @@ abstract class ValidatedHandler<T extends Payload, R>
             throw new BadRequestException(validation.error.errors);
         }
 
-        return payload as Q;
+        return validation.data as Q;
     }
 
     abstract execute(command: T): Promise<R>;

@@ -24,7 +24,6 @@ class UploadFileMultipartHandler extends ValidatedHandler<UploadFileMultipartCom
     async execute(command: UploadFileMultipartCommand): Promise<IFileDomain>
     {
         const payload = await this.validate<MultipartFilePayload>(command);
-
         const file: IFileDomain = new File();
 
         const objectName = this.service.convertToUrlFriendly(payload.originalFilename);
@@ -34,7 +33,7 @@ class UploadFileMultipartHandler extends ValidatedHandler<UploadFileMultipartCom
           objectPath,
           fileTempPath: payload.path,
           size: payload.size,
-          isPublic: true // TODO: Send it in payload by query param
+          isPublic: payload.isPublic
         });
 
         file.fileName = payload.filename;
@@ -46,8 +45,8 @@ class UploadFileMultipartHandler extends ValidatedHandler<UploadFileMultipartCom
         file.size = payload.size;
         file.version = 1;
         file.encoding = payload.encoding;
-        file.isPublic = true;
-        file.isOptimized = false;
+        file.isPublic = payload.isPublic;
+        file.isOptimized = payload.isOptimized;
 
         return await this.repository.save(file);
     }

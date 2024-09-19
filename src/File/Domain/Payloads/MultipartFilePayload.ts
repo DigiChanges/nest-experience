@@ -8,6 +8,9 @@ interface MultipartFilePayload
   mimetype: string;
   path: string;
   size: number;
+  isPublic?: boolean;
+  isOptimized?: boolean;
+  isOriginalName?: boolean;
 }
 
 export default MultipartFilePayload;

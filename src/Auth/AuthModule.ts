@@ -11,7 +11,6 @@ import AuthSupabaseRepository from './Infrastructure/Repositories/AuthSupabaseRe
 import AuthController from './Presentation/Controllers/AuthController';
 
 
-
 @Module({
   imports: [SharedModule],
   controllers: [AuthController],
