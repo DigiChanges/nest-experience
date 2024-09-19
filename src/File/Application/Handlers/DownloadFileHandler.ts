@@ -31,7 +31,8 @@ class DownloadFileHandler extends ValidatedHandler<GetMetadataFileQuery, Downloa
         const file = await this.repository.getOne(payload.id);
 
         const stream = await this.filesystem.downloadFile({
-            objectName: file.path
+            objectName: file.path,
+            isPublic: file.isPublic
         });
 
         return {

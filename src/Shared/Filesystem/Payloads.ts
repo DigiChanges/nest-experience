@@ -10,6 +10,7 @@ export interface UploadFilePayload
 export interface DownloadFilePayload
 {
   objectName: string;
+  isPublic: boolean;
 }
 
 

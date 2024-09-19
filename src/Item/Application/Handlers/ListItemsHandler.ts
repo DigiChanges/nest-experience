@@ -17,9 +17,9 @@ class ListItemsHandler extends ValidatedHandler<ListItemQuery, IPaginator> imple
 
     async execute(query: ListItemQuery): Promise<IPaginator>
     {
-        const payload = await this.validate<ICriteria>(query);
+        await this.validate<ICriteria>(query);
 
-        return this.repository.list(payload);
+        return this.repository.list(query.payload);
     }
 }
 

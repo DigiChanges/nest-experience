@@ -82,13 +82,15 @@ export class MinioStrategy implements IFilesystem
     async downloadFile(object: DownloadFilePayload): Promise<Readable>
     {
         const filePath = `${this.#rootPath}/${object.objectName}`;
+        const bucketName = this.getBucketName(object.isPublic);
 
-        return await this.#fileSystem.getObject(this.#bucket, filePath);
+        return await this.#fileSystem.getObject(bucketName, filePath);
     }
 
     async removeObject(object: RemoveFilePayload): Promise<void>
     {
-        await this.#fileSystem.removeObject(this.#bucket, object.objectName);
+        const bucketName = this.getBucketName(object.isPublic);
+        await this.#fileSystem.removeObject(bucketName, object.objectName);
     }
 
     private getBucketName(isResourcePublic: boolean)

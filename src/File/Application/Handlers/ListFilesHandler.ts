@@ -18,9 +18,8 @@ class ListFilesHandler extends ValidatedHandler<ListFileQuery, IPaginator> imple
 
     async execute(query: ListFileQuery): Promise<IPaginator>
     {
-        const payload = await this.validate<ICriteria>(query);
-
-        return this.repository.list(payload);
+        await this.validate<ICriteria>(query);
+        return this.repository.list(query.payload);
     }
 }
 
