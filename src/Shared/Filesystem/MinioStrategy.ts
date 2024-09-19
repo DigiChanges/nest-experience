@@ -33,7 +33,7 @@ export class MinioStrategy implements IFilesystem
 
     constructor(config: MinioConfig)
     {
-        this.#bucket = `${config.bucket}.public`;
+        this.#bucket = `${config.bucket}`;
         this.#rootPath = config.rootPath;
         this.#region = config.region;
 
@@ -74,8 +74,9 @@ export class MinioStrategy implements IFilesystem
     {
         const acl = payload.isPublic ? 'public-read' : 'private';
         const objectName = `${this.#rootPath}/${payload.objectPath}`;
+        const bucketName = this.getBucketName(payload.isPublic);
 
-        await this.#fileSystem.fPutObject(this.#bucket, objectName, payload.fileTempPath, { 'x-amz-acl': acl });
+        await this.#fileSystem.fPutObject(bucketName, objectName, payload.fileTempPath, { 'x-amz-acl': acl });
     }
 
     async downloadFile(object: DownloadFilePayload): Promise<Readable>
@@ -88,5 +89,11 @@ export class MinioStrategy implements IFilesystem
     async removeObject(object: RemoveFilePayload): Promise<void>
     {
         await this.#fileSystem.removeObject(this.#bucket, object.objectName);
+    }
+
+    private getBucketName(isResourcePublic: boolean)
+    {
+        const resourceVisibility = isResourcePublic ? 'public' : 'private';
+        return `${this.#bucket}.${resourceVisibility}`;
     }
 }

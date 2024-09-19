@@ -15,9 +15,9 @@ class FileService // TODO: Add  interface specification
         return filename
             .toLowerCase()
             .replace(/[\s_]+/g, '-')
-            .replace(/[^\w\-\.]+/g, '')
-            .replace(/\-+/g, '-')
-            .replace(/^\-+|\-+$/g, '')
+            .replace(/[^\w\-.]+/g, '')
+            .replace(/-+/g, '-')
+            .replace(/^-+|-+$/g, '')
             .replace(/\.+/g, '.');
     }
 
