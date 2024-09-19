@@ -10,6 +10,7 @@ import MultipartFilePayload from '@file/Domain/Payloads/MultipartFilePayload';
 import UpdateMultipartFilePayload from '@file/Domain/Payloads/UpdateMultipartFilePayload';
 import FileFilter from '@file/Presentation/Criterias/FileFilter';
 import FileSort from '@file/Presentation/Criterias/FileSort';
+import { UpdateBucketRepRequest } from '@file/Presentation/Requests/UpdateBucketRepRequest';
 import UploadBucketRepRequestQuery from '@file/Presentation/Requests/UploadBucketRepRequest';
 import FileTransformer from '@file/Presentation/Transformers/FileTransformer';
 import { Post, Get, Controller, Param, Delete, UseInterceptors, Put, Res } from '@nestjs/common';
@@ -62,9 +63,13 @@ class FileController
       }
     }))
     @Transform(FileTransformer)
-    async updateUploadMultipart(@UploadedFile() payload: MultipartFilePayload, @Param() id: IdPayload) // TODO
+    async updateUploadMultipart(
+      @UploadedFile() payload: MultipartFilePayload,
+      @Param() id: IdPayload,
+      @Query() query: UpdateBucketRepRequest
+    ) // TODO
     {
-        const updatePayload: UpdateMultipartFilePayload = { ...payload, ...id };
+        const updatePayload: UpdateMultipartFilePayload = { ...payload, ...id, ...query };
         return await this.commandBus.execute(new UpdateUploadFileMultipartCommand(updatePayload));
     }
 

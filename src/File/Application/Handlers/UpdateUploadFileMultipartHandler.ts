@@ -1,4 +1,5 @@
 import UpdateUploadFileMultipartCommand from '@file/Application/Commands/UpdateUploadFileMultipartCommand';
+import UpdateMultipartFileSchemaValidation from '@file/Application/Validations/UpdateMultipartFileSchemaValidation';
 import File from '@file/Domain/Entities/File';
 import IFileDomain from '@file/Domain/Entities/IFileDomain';
 import UpdateMultipartFilePayload from '@file/Domain/Payloads/UpdateMultipartFilePayload';
@@ -8,7 +9,6 @@ import FileService from '@shared/Filesystem/FileService';
 import { IFilesystem } from '@shared/Filesystem/IFilesystem';
 import ValidatedHandler from '@shared/Validations/ValidatedHandler';
 
-import { MultipartFileSchemaValidation } from '../Validations/MultipartFileSchemaValidation';
 
 @CommandHandler(UpdateUploadFileMultipartCommand)
 class UpdateUploadFileMultipartHandler extends ValidatedHandler<UpdateUploadFileMultipartCommand, IFileDomain> implements ICommandHandler<UpdateUploadFileMultipartCommand>
@@ -17,10 +17,10 @@ class UpdateUploadFileMultipartHandler extends ValidatedHandler<UpdateUploadFile
                 private filesystem: IFilesystem,
                 private service: FileService)
     {
-        super(MultipartFileSchemaValidation);
+        super(UpdateMultipartFileSchemaValidation);
     }
 
-    async execute(command: UpdateUploadFileMultipartCommand): Promise<any>
+    async execute(command: UpdateUploadFileMultipartCommand): Promise<IFileDomain>
     {
         const payload = await this.validate<UpdateMultipartFilePayload>(command);
 
@@ -32,7 +32,8 @@ class UpdateUploadFileMultipartHandler extends ValidatedHandler<UpdateUploadFile
         }
 
         const file: IFileDomain = new File();
-        const newVersion = file.version + 1;
+
+        const newVersion = originalFile.version + 1;
         const objectName = this.service.convertToUrlFriendly(payload.originalFilename);
         const objectPath = this.service.addNewFilePath(originalFile.originalFileId, newVersion, objectName);
 
@@ -40,7 +41,7 @@ class UpdateUploadFileMultipartHandler extends ValidatedHandler<UpdateUploadFile
           objectPath,
           fileTempPath: payload.path,
           size: payload.size,
-          isPublic: true
+          isPublic: payload.isPublic
         });
 
         file.originalFileId = originalFile.originalFileId;
@@ -53,8 +54,8 @@ class UpdateUploadFileMultipartHandler extends ValidatedHandler<UpdateUploadFile
         file.size = payload.size;
         file.version = newVersion;
         file.encoding = payload.encoding;
-        file.isPublic = true;
-        file.isOptimized = false;
+        file.isPublic = payload.isPublic;
+        file.isOptimized = payload.isOptimized;
 
         return await this.repository.save(file);
     }
