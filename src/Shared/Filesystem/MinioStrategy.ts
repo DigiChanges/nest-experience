@@ -33,7 +33,7 @@ export class MinioStrategy implements IFilesystem
 
     constructor(config: MinioConfig)
     {
-        this.#bucket = `${config.bucket}`;
+        this.#bucket = config.bucket;
         this.#rootPath = config.rootPath;
         this.#region = config.region;
 
