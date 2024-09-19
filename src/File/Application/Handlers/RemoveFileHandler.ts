@@ -1,11 +1,11 @@
 import RemoveFileCommand from '@file/Application/Commands/RemoveFileCommand';
+import IFileDomain from '@file/Domain/Entities/IFileDomain';
 import IFileRepository from '@file/Domain/Repositories/IFileRepository';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { IFilesystem } from '@shared/Filesystem/IFilesystem';
 import IdPayload from '@shared/Payloads/IdPayload';
 import { IdSchemaValidation } from '@shared/Validations/IdSchemaValidation';
 import ValidatedHandler from '@shared/Validations/ValidatedHandler';
-import IFileDomain from '@file/Domain/Entities/IFileDomain';
 
 @CommandHandler(RemoveFileCommand)
 class RemoveFileHandler extends ValidatedHandler<RemoveFileCommand, any> implements ICommandHandler<RemoveFileCommand>
