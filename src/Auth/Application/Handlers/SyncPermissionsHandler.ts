@@ -1,12 +1,12 @@
+import { Logger } from '@nestjs/common';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import SyncPermissionsCommand from '@src/Auth/Application/Commands/SyncPermissionsCommand';
+
+import Permissions from '../../../Config/Permissions';
+import Roles from '../../../Config/Roles';
 import IPermissionDomain from '../../Domain/Entities/IPermissionDomain';
 import IRoleDomain from '../../Domain/Entities/IRoleDomain';
-import Permissions from '../../../Config/Permissions';
-import { Inject, Logger } from '@nestjs/common';
-import Roles from '../../../Config/Roles';
 import IAuthRepository from '../../Domain/Repositories/IAuthRepository';
-import AuthSupabaseRepository from '../../Infrastructure/Repositories/AuthSupabaseRepository';
-import {CommandHandler, ICommandHandler} from "@nestjs/cqrs";
-import SyncPermissionsCommand from "@src/Auth/Application/Commands/SyncPermissionsCommand";
 
 @CommandHandler(SyncPermissionsCommand)
 class SyncPermissionsHandler implements ICommandHandler<SyncPermissionsCommand>
@@ -42,7 +42,7 @@ class SyncPermissionsHandler implements ICommandHandler<SyncPermissionsCommand>
     const currentRoles = await this.repository.getRoles();
     const rolesToInsert: any[] = [];
 
-    for (const [roleName, _] of roles)
+    for (const [roleName] of roles)
     {
       if (!currentRoles.some((role: IRoleDomain) => role.name === roleName))
       {

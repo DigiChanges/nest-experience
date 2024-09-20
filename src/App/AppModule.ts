@@ -1,11 +1,12 @@
+import { AppController } from '@app/Presentation/Controllers/AppController';
+import { AuthModule } from '@auth/AuthModule';
+import { EnvConfig, EnvSchema } from '@config/EnvConfig';
+import { FileModule } from '@file/FileModule';
+import { ItemModule } from '@item/ItemModule';
 import { Module } from '@nestjs/common';
-import { AppController } from './Presentation/Controllers/AppController';
-import { ItemModule } from '../Item/ItemModule';
-import { MongooseModule } from '@nestjs/mongoose';
-import { CqrsModule } from '@nestjs/cqrs';
-import { AuthModule } from '@src/Auth/AuthModule';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { EnvConfig, EnvSchema } from '@src/Config/EnvConfig';
+import { CqrsModule } from '@nestjs/cqrs';
+import { MongooseModule } from '@nestjs/mongoose';
 import { SharedModule } from '@shared/SharedModule';
 
 @Module({
@@ -18,14 +19,15 @@ import { SharedModule } from '@shared/SharedModule';
     CqrsModule.forRoot(),
     MongooseModule.forRootAsync({
       imports: [],
-      useFactory: async(config: ConfigService) => ({
+      useFactory: (config: ConfigService) => ({
         uri: config.get('DB_URI', 'mongodb://experience:experience@localhost:27018/experience')
       }),
       inject: [ConfigService]
     }),
-    SharedModule,
+    AuthModule,
     ItemModule,
-    AuthModule
+    FileModule,
+    SharedModule
   ],
   controllers: [AppController]
 })

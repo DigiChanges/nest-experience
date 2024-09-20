@@ -1,17 +1,19 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import request from 'supertest';
-import TestAgent from 'supertest/lib/agent';
+import compression from '@fastify/compress';
+import { RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { EnvConfig, EnvSchema } from '@src/Config/EnvConfig';
+import { ModuleDefinition } from '@nestjs/core/interfaces/module-definition.interface';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SharedModule } from '@shared/SharedModule';
-import { RequestMethod } from '@nestjs/common';
-import compression from '@fastify/compress';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { Test, TestingModule } from '@nestjs/testing';
+import { EnvConfig, EnvSchema } from '@src/Config/EnvConfig';
 import qs from 'fastify-qs';
-import { ModuleDefinition } from '@nestjs/core/interfaces/module-definition.interface';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import request from 'supertest';
+import TestAgent from 'supertest/lib/agent';
+import Compression from '@fastify/compress';
+import Qs from 'fastify-qs';
+import FastifyMultipart from '@fastify/multipart';
 
 export type TestAgentType = { agent: TestAgent, app: NestFastifyApplication, mongoServer: MongoMemoryServer };
 
@@ -46,8 +48,9 @@ export async function getTestAgent(...modules: ModuleDefinition[]): Promise<Test
     exclude: [{ path: '/', method: RequestMethod.GET }]
   });
 
-  await app.register(compression);
-  await app.register(qs);
+  await app.register(Compression);
+  await app.register(Qs);
+  await app.register(FastifyMultipart);
 
   await app.init();
   await app.getHttpAdapter().getInstance().ready();

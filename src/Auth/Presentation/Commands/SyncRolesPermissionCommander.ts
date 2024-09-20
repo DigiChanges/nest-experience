@@ -1,5 +1,6 @@
-import { Command, CommandRunner } from 'nest-commander';
 import { CommandBus } from '@nestjs/cqrs';
+import { Command, CommandRunner } from 'nest-commander';
+
 import SyncPermissionsCommand from '../../Application/Commands/SyncPermissionsCommand';
 
 @Command({ name: 'syncRolesPermission', description: 'Sync permissions' })

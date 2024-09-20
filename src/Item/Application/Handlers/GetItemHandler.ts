@@ -1,13 +1,14 @@
-import GetItemQuery from '../Queries/GetItemQuery';
-import IItemDomain from '../../Domain/Entities/IItemDomain';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { IdSchemaValidation } from '@shared/Validations/IdSchemaValidation';
-import IItemRepository from '../../Domain/Repositories/IItemRepository';
+import ValidatedHandler from '@shared/Validations/ValidatedHandler';
+
 import IdPayload from '../../../Shared/Payloads/IdPayload';
-import ValidatedHandler from '@shared/Handlers/ValidatedHandler';
+import IItemDomain from '../../Domain/Entities/IItemDomain';
+import IItemRepository from '../../Domain/Repositories/IItemRepository';
+import GetItemQuery from '../Queries/GetItemQuery';
 
 @QueryHandler(GetItemQuery)
-class GetItemHandler extends ValidatedHandler<GetItemQuery> implements IQueryHandler<GetItemQuery>
+class GetItemHandler extends ValidatedHandler<GetItemQuery, IItemDomain> implements IQueryHandler<GetItemQuery>
 {
     constructor(private repository: IItemRepository)
     {

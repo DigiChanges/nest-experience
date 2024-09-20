@@ -1,11 +1,11 @@
+import { QueryHandlers } from '@item/Application/Handlers';
+import Item from '@item/Domain/Entities/Item';
+import IItemRepository from '@item/Domain/Repositories/IItemRepository';
+import ItemMongooseRepository from '@item/Infrastructure/Repositories/ItemMongooseRepository';
+import ItemSchema from '@item/Infrastructure/Schemas/ItemSchema';
+import ItemController from '@item/Presentation/Controllers/ItemController';
 import { Module } from '@nestjs/common';
-import ItemController from './Presentation/Controllers/ItemController';
 import { MongooseModule } from '@nestjs/mongoose';
-import Item from './Domain/Entities/Item';
-import ItemSchema from './Infrastructure/Schemas/ItemSchema';
-import { QueryHandlers } from './Application/Handlers';
-import ItemMongooseRepository from './Infrastructure/Repositories/ItemMongooseRepository';
-import IItemRepository from './Domain/Repositories/IItemRepository';
 
 @Module({
   imports: [

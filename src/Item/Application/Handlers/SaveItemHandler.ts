@@ -1,14 +1,15 @@
-import SaveItemCommand from '../Commands/SaveItemCommand';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import IItemRepository from '../../Domain/Repositories/IItemRepository';
-import Item from '../../Domain/Entities/Item';
+import ValidatedHandler from '@shared/Validations/ValidatedHandler';
+
 import IItemDomain from '../../Domain/Entities/IItemDomain';
-import { ItemSchemaSaveValidation } from '../Validations/ItemSchemaSaveValidation';
-import ValidatedHandler from '../../../Shared/Handlers/ValidatedHandler';
+import Item from '../../Domain/Entities/Item';
 import ItemRepPayload from '../../Domain/Payloads/ItemRepPayload';
+import IItemRepository from '../../Domain/Repositories/IItemRepository';
+import SaveItemCommand from '../Commands/SaveItemCommand';
+import { ItemSchemaSaveValidation } from '../Validations/ItemSchemaSaveValidation';
 
 @CommandHandler(SaveItemCommand)
-class SaveItemHandler extends ValidatedHandler<SaveItemCommand> implements ICommandHandler<SaveItemCommand>
+class SaveItemHandler extends ValidatedHandler<SaveItemCommand, void> implements ICommandHandler<SaveItemCommand>
 {
     constructor(private repository: IItemRepository)
     {

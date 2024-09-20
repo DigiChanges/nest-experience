@@ -5,7 +5,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'import'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -122,7 +122,7 @@ module.exports = {
       }
     }],
     '@typescript-eslint/no-shadow': ['error'],
-    '@typescript-eslint/no-unused-vars': 0,
+    '@typescript-eslint/no-unused-vars': 'warn',
     '@typescript-eslint/no-empty-interface': 0,
     '@typescript-eslint/no-unsafe-return': 0,
     '@typescript-eslint/restrict-template-expressions': 0,
@@ -135,6 +135,20 @@ module.exports = {
     '@typescript-eslint/require-await': 0,
     '@typescript-eslint/type-annotation-spacing': 'warn',
     '@typescript-eslint/no-unsafe-argument': 0,
-    'no-mixed-spaces-and-tabs': 0
+    'no-mixed-spaces-and-tabs': 0,
+    'import/order': [
+      'error',
+      {
+        'newlines-between': 'always',
+        'alphabetize': { 'order': 'asc', 'caseInsensitive': true },
+        'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+        'pathGroups': [
+          {
+            'pattern': '@/**',
+            'group': 'internal',
+          },
+        ],
+      },
+    ],
   },
 };

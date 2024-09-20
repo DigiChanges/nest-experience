@@ -1,5 +1,6 @@
-import { ErrorHttpException } from './ErrorHttpException';
 import { StatusCode } from '../Utils/StatusCode';
+
+import { ErrorHttpException } from './ErrorHttpException';
 
 class DuplicateEntityHttpException extends ErrorHttpException
 {

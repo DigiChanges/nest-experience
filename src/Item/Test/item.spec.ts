@@ -1,12 +1,14 @@
-import { afterAll, beforeAll, describe, expect } from 'vitest';
-import TestAgent from 'supertest/lib/agent';
-import { ItemModule } from '@src/Item/ItemModule';
-import { getTestAgent, TestAgentType } from '@src/Config/TestConfig';
+import { randomUUID } from 'crypto';
+
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { SharedModule } from '@shared/SharedModule';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import { getTestAgent, TestAgentType } from '@src/Config/TestConfig';
 import ItemRepPayload from '@src/Item/Domain/Payloads/ItemRepPayload';
-import { randomUUID } from 'crypto';
+import { ItemModule } from '@src/Item/ItemModule';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import TestAgent from 'supertest/lib/agent';
+import { afterAll, beforeAll, describe, expect } from 'vitest';
+
 
 describe('ItemModule (e2e)', () =>
 {

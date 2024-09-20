@@ -1,13 +1,13 @@
-import { ParsedQs } from 'qs';
 import { IMapCriteria } from '@shared/Criteria/IMapCriteria';
+import { ParsedQs } from 'qs';
 
 export abstract class MapCriteria implements IMapCriteria
 {
-    private readonly criterias: Map<string, any>;
+    private readonly criterias: Map<string, string | number | boolean>;
 
     constructor(query: ParsedQs)
     {
-        this.criterias = new Map<string, unknown>();
+        this.criterias = new Map<string, number | boolean | string>();
         const queryFilters: any = query ?? {};
         const defaults: any = this.getDefaults();
         const keys = this.getFields();
@@ -20,7 +20,7 @@ export abstract class MapCriteria implements IMapCriteria
         });
         const criterias = Object.keys(queryFilters).map((key: string) =>
         {
-            const filter: Record<string, unknown> = query as Record<string, unknown>;
+            const filter: Record<string, number | boolean | string> = query as Record<string, number | boolean | string>;
             let value = {};
 
             if (filter[key] !== undefined && filter[key] !== null)
@@ -46,7 +46,7 @@ export abstract class MapCriteria implements IMapCriteria
         });
     }
 
-    private setValue(key: string, value: unknown)
+    private setValue(key: string, value: number | boolean | string)
     {
         if (value !== undefined && value !== null)
         {
@@ -54,12 +54,12 @@ export abstract class MapCriteria implements IMapCriteria
         }
     }
 
-    get<T>(key: string, defaultValue: unknown = null): T
+    get(key: string, defaultValue?: number | boolean | string): number | boolean | string
     {
         return this.criterias.has(key) ? this.criterias.get(key) : defaultValue;
     }
 
-    set(key: string, value: unknown): void
+    set(key: string, value: number | boolean | string): void
     {
         this.criterias.set(key as any, value);
     }
@@ -74,16 +74,16 @@ export abstract class MapCriteria implements IMapCriteria
         return this.criterias.size === 0;
     }
 
-    getArray(): any
+    getArray(): IterableIterator<[string, number | boolean | string]>
     {
         return this.criterias.entries();
     }
 
-    values(): Map<string, unknown>
+    values(): Map<string, number | boolean | string>
     {
         return this.criterias;
     }
 
     abstract getFields(): string[];
-    abstract getDefaults(): unknown[];
+    abstract getDefaults(): Record<string, number | boolean | string>[];
 }

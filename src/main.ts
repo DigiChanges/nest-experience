@@ -1,9 +1,7 @@
+import { AppModule } from '@app/AppModule';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { AppModule } from './App/AppModule';
-import { RequestMethod } from '@nestjs/common';
-import compression from '@fastify/compress';
-import qs from 'fastify-qs';
+import App from '@src/appFactory';
 
 void (async() =>
 {
@@ -12,12 +10,8 @@ void (async() =>
     new FastifyAdapter()
   );
 
-  app.setGlobalPrefix('api', {
-    exclude: [{ path: '/', method: RequestMethod.GET }]
-  });
-
-  await app.register(compression);
-  await app.register(qs);
-
-  await app.listen(8089);
+  const application = new App(app);
+  application.init();
+  await application.initMiddleware();
+  await application.listen(8089);
 })();

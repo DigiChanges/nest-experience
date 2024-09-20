@@ -1,11 +1,13 @@
 import { Global, Module } from '@nestjs/common';
-import { SyncRolesPermissionCommander } from '@src/Auth/Presentation/Commands/SyncRolesPermissionCommander';
+import FileService from '@shared/Filesystem/FileService';
+import ProviderFilesystem from '@shared/Filesystem/ProviderFilesystem';
 
 @Global()
 @Module({
   providers: [
-    SyncRolesPermissionCommander
+    ProviderFilesystem,
+    FileService
   ],
-  exports: []
+  exports: [ProviderFilesystem, FileService]
 })
 export class SharedModule {}

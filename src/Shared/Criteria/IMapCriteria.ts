@@ -1,11 +1,11 @@
 
 export interface IMapCriteria
 {
-    values(): Map<string, unknown>;
-    get(key: string, defaultValue?: unknown): unknown;
-    set(key: string, value: unknown): void
-    getArray(key: string): unknown[];
+    values(): Map<string, number | boolean | string>;
+    get(key: string, defaultValue?: number | boolean | string): number | boolean | string;
+    set(key: string, value: number | boolean | string): void
+    getArray(key: string): IterableIterator<[string, number | boolean | string]>;
     has(key: string): boolean;
     isEmpty(): boolean;
-    getFields(): unknown[];
+    getFields(): string[];
 }
