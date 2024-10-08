@@ -15,7 +15,7 @@ interface IFileDomain extends IBaseDomain
     encoding: string;
     isPublic: boolean;
     isOptimized: boolean;
-    setFullPath: (path: string) => void;
+    setFullPath(path: string): void;
     isOriginal(): boolean;
 }
 
