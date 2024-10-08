@@ -5,9 +5,9 @@ import IFileDomain from '@file/Domain/Entities/IFileDomain';
 import UpdateMultipartFilePayload from '@file/Domain/Payloads/UpdateMultipartFilePayload';
 import IFileRepository from '@file/Domain/Repositories/IFileRepository';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { IFileService } from '@shared/Filesystem/IFileService';
 import { IFilesystem } from '@shared/Filesystem/IFilesystem';
 import ValidatedHandler from '@shared/Validations/ValidatedHandler';
-import { IFileService } from '@shared/Filesystem/IFileService';
 
 
 @CommandHandler(UpdateUploadFileMultipartCommand)

@@ -1,6 +1,5 @@
 import { extname } from 'path';
 
-import IFileDomain from '@file/Domain/Entities/IFileDomain';
 import { Injectable } from '@nestjs/common';
 import { IFileService } from '@shared/Filesystem/IFileService';
 
