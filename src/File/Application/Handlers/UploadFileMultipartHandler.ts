@@ -1,6 +1,6 @@
 import MultipartFilePayload from '@file/Domain/Payloads/MultipartFilePayload';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import FileService from '@shared/Filesystem/FileService';
+import { IFileService } from '@shared/Filesystem/IFileService';
 import { IFilesystem } from '@shared/Filesystem/IFilesystem';
 import ValidatedHandler from '@shared/Validations/ValidatedHandler';
 
@@ -15,7 +15,7 @@ class UploadFileMultipartHandler extends ValidatedHandler<UploadFileMultipartCom
 {
     constructor(private repository: IFileRepository,
                 private filesystem: IFilesystem,
-                private service: FileService
+                private service: IFileService
     )
     {
         super(MultipartFileSchemaValidation);
@@ -48,7 +48,10 @@ class UploadFileMultipartHandler extends ValidatedHandler<UploadFileMultipartCom
         file.isPublic = payload.isPublic;
         file.isOptimized = payload.isOptimized;
 
-        return await this.repository.save(file);
+        const savedFile = await this.repository.save(file);
+        savedFile.setFullPath((this.service.getFullPathFile(file.path)));
+
+        return savedFile;
     }
 }
 
