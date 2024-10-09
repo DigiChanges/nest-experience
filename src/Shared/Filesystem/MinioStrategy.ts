@@ -49,19 +49,8 @@ export class MinioStrategy implements IFilesystem
 
     async createBucket(payload: CreateBucketPayload): Promise<void>
     {
-        const name = payload.bucketName;
-        const bucketNamePrivate = `${name}.private`;
-        const bucketNamePublic = `${name}.public`;
-
-        const region = payload.region;
-        const bucketPrivatePolicy = payload.privateBucketPolicy;
-        const bucketPublicPolicy = payload.publicBucketPolicy;
-
-        await this.#fileSystem.makeBucket(bucketNamePrivate, region);
-        await this.#fileSystem.setBucketPolicy(bucketNamePrivate, bucketPrivatePolicy);
-
-        await this.#fileSystem.makeBucket(bucketNamePublic, region);
-        await this.#fileSystem.setBucketPolicy(bucketNamePublic, bucketPublicPolicy);
+        await this.#fileSystem.makeBucket(payload.bucketName, payload.region ?? this.#region);
+        await this.#fileSystem.setBucketPolicy(payload.bucketName, payload.publicBucketPolicy);
     }
 
     async setBucketPolicy(payload: SetBucketPolicyPayload): Promise<void>
@@ -74,28 +63,19 @@ export class MinioStrategy implements IFilesystem
     {
         const acl = payload.isPublic ? 'public-read' : 'private';
         const objectName = `${this.#rootPath}/${payload.objectPath}`;
-        const bucketName = this.getBucketName(payload.isPublic);
 
-        await this.#fileSystem.fPutObject(bucketName, objectName, payload.fileTempPath, { 'x-amz-acl': acl });
+        await this.#fileSystem.fPutObject(this.#bucket, objectName, payload.fileTempPath, { 'x-amz-acl': acl });
     }
 
     async downloadFile(object: DownloadFilePayload): Promise<Readable>
     {
         const filePath = `${this.#rootPath}/${object.objectName}`;
-        const bucketName = this.getBucketName(object.isPublic);
 
-        return await this.#fileSystem.getObject(bucketName, filePath);
+        return await this.#fileSystem.getObject(this.#bucket, filePath);
     }
 
     async removeObject(object: RemoveFilePayload): Promise<void>
     {
-        const bucketName = this.getBucketName(object.isPublic);
-        await this.#fileSystem.removeObject(bucketName, object.objectName);
-    }
-
-    private getBucketName(isResourcePublic: boolean)
-    {
-        const resourceVisibility = isResourcePublic ? 'public' : 'private';
-        return `${this.#bucket}.${resourceVisibility}`;
+        await this.#fileSystem.removeObject(this.#bucket, object.objectName);
     }
 }

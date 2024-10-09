@@ -5,7 +5,7 @@ import IFileDomain from '@file/Domain/Entities/IFileDomain';
 import UpdateMultipartFilePayload from '@file/Domain/Payloads/UpdateMultipartFilePayload';
 import IFileRepository from '@file/Domain/Repositories/IFileRepository';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import FileService from '@shared/Filesystem/FileService';
+import { IFileService } from '@shared/Filesystem/IFileService';
 import { IFilesystem } from '@shared/Filesystem/IFilesystem';
 import ValidatedHandler from '@shared/Validations/ValidatedHandler';
 
@@ -15,7 +15,7 @@ class UpdateUploadFileMultipartHandler extends ValidatedHandler<UpdateUploadFile
 {
     constructor(private repository: IFileRepository,
                 private filesystem: IFilesystem,
-                private service: FileService)
+                private service: IFileService)
     {
         super(UpdateMultipartFileSchemaValidation);
     }
