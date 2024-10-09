@@ -13,11 +13,11 @@ import ProviderFilesystem from '@shared/Filesystem/ProviderFilesystem';
       useFactory: async(configService: ConfigService) =>
       {
         const config = {
-          fileSystemBucket: configService.get<string>('FILESYSTEM_BUCKET'),
-          fileSystemHost: configService.get<string>('FILESYSTEM_HOST'),
-          fileSystemPort: configService.get<string>('FILESYSTEM_PORT'),
-          fileSystemRootPath: configService.get<string>('FILESYSTEM_ROOT_PATH'),
-          fileSystemProtocol: configService.get<string>('FILESYSTEM_PROTOCOL')
+          bucket: configService.get<string>('FILESYSTEM_BUCKET'),
+          host: configService.get<string>('FILESYSTEM_HOST'),
+          port: configService.get<string>('FILESYSTEM_PORT'),
+          rootPath: configService.get<string>('FILESYSTEM_ROOT_PATH'),
+          protocol: configService.get<string>('FILESYSTEM_PROTOCOL')
         };
 
         return new FileService(config);

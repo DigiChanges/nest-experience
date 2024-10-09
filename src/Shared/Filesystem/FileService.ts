@@ -5,11 +5,11 @@ import { Injectable } from '@nestjs/common';
 import { IFileService } from '@shared/Filesystem/IFileService';
 
 interface Config {
-    fileSystemBucket: string;
-    fileSystemHost: string;
-    fileSystemPort: string;
-    fileSystemRootPath: string;
-    fileSystemProtocol: string;
+    bucket: string;
+    host: string;
+    port: string;
+    rootPath: string;
+    protocol: string;
 }
 
 @Injectable()
@@ -41,8 +41,8 @@ class FileService implements IFileService
 
     setFullPathToFile(file: IFileDomain): IFileDomain
     {
-        const { fileSystemBucket, fileSystemHost, fileSystemPort, fileSystemRootPath, fileSystemProtocol } = this.config;
-        file.path = `${fileSystemProtocol}://${fileSystemHost}${fileSystemPort ? `:${fileSystemPort}` : ''}/${fileSystemBucket}/${fileSystemRootPath}/${file.path}`;
+        const { bucket, host, port, rootPath, protocol } = this.config;
+        file.path = `${protocol}://${host}${port ? `:${port}` : ''}/${bucket}/${rootPath}/${file.path}`;
 
         return file;
     }
