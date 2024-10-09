@@ -1,5 +1,6 @@
 import { extname } from 'path';
 
+import IFileDomain from '@file/Domain/Entities/IFileDomain';
 import { Injectable } from '@nestjs/common';
 import { IFileService } from '@shared/Filesystem/IFileService';
 
@@ -38,10 +39,12 @@ class FileService implements IFileService
         return ext ? ext.slice(1) : null;
     }
 
-    getFullPathFile(path: string): string
+    setFullPathToFile(file: IFileDomain): IFileDomain
     {
         const { fileSystemBucket, fileSystemHost, fileSystemPort, fileSystemRootPath, fileSystemProtocol } = this.config;
-        return `${fileSystemProtocol}://${fileSystemHost}${fileSystemPort ? `:${fileSystemPort}` : ''}/${fileSystemBucket}/${fileSystemRootPath}/${path}`;
+        file.path = `${fileSystemProtocol}://${fileSystemHost}${fileSystemPort ? `:${fileSystemPort}` : ''}/${fileSystemBucket}/${fileSystemRootPath}/${file.path}`;
+
+        return file;
     }
 }
 

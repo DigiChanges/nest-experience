@@ -23,9 +23,8 @@ class GetMetadataFileHandler extends ValidatedHandler<GetMetadataFileQuery, IFil
         const payload = await this.validate<IdPayload>(query);
 
         const file = await this.repository.getOne(payload.id);
-        file.setFullPath(this.fileService.getFullPathFile(file.path));
 
-        return file;
+        return this.fileService.setFullPathToFile(file);
     }
 }
 

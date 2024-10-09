@@ -33,11 +33,6 @@ class File extends BaseDomain implements IFileDomain
     {
         return this.originalFileId === this._id;
     }
-
-    setFullPath(path: string): void
-    {
-        this.path = path;
-    }
 }
 
 export default File;

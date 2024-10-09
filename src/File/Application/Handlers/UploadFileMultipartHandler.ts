@@ -49,9 +49,8 @@ class UploadFileMultipartHandler extends ValidatedHandler<UploadFileMultipartCom
         file.isOptimized = payload.isOptimized;
 
         const savedFile = await this.repository.save(file);
-        savedFile.setFullPath((this.service.getFullPathFile(file.path)));
 
-        return savedFile;
+        return this.service.setFullPathToFile(savedFile);
     }
 }
 
