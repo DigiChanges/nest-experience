@@ -1,4 +1,5 @@
-import compression from '@fastify/compress';
+import Compression from '@fastify/compress';
+import FastifyMultipart from '@fastify/multipart';
 import { RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ModuleDefinition } from '@nestjs/core/interfaces/module-definition.interface';
@@ -7,13 +8,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EnvConfig, EnvSchema } from '@src/Config/EnvConfig';
-import qs from 'fastify-qs';
+import Qs from 'fastify-qs';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import request from 'supertest';
 import TestAgent from 'supertest/lib/agent';
-import Compression from '@fastify/compress';
-import Qs from 'fastify-qs';
-import FastifyMultipart from '@fastify/multipart';
 
 export type TestAgentType = { agent: TestAgent, app: NestFastifyApplication, mongoServer: MongoMemoryServer };
 

@@ -15,7 +15,6 @@ interface IFileDomain extends IBaseDomain
     encoding: string;
     isPublic: boolean;
     isOptimized: boolean;
-
     isOriginal(): boolean;
 }
 

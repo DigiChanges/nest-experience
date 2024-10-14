@@ -16,7 +16,8 @@ export const EnvConfig =  registerAs('app', () => ({
   FILESYSTEM_PORT: process.env.FILESYSTEM_PORT,
   FILESYSTEM_BUCKET: process.env.FILESYSTEM_BUCKET,
   FILESYSTEM_ROOT_PATH: process.env.FILESYSTEM_ROOT_PATH,
-  FILESYSTEM_REGION: process.env.FILESYSTEM_REGION
+  FILESYSTEM_REGION: process.env.FILESYSTEM_REGION,
+  FILESYSTEM_PROTOCOL: process.env.FILESYSTEM_PROTOCOL
 }));
 
 export const EnvSchema = Joi.object({
@@ -34,5 +35,6 @@ export const EnvSchema = Joi.object({
   FILESYSTEM_PORT: Joi.number().required(),
   FILESYSTEM_BUCKET: Joi.string().required(),
   FILESYSTEM_ROOT_PATH: Joi.string().required(),
-  FILESYSTEM_REGION: Joi.string().required()
+  FILESYSTEM_REGION: Joi.string().required(),
+  FILESYSTEM_PROTOCOL: Joi.string().required()
 });
