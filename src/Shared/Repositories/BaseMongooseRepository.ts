@@ -1,4 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
+import { ErrorException } from '@shared/Exceptions/ErrorException';
+import { GeneralErrorType } from '@shared/Exceptions/GeneralErrorType';
 import * as mongoose from 'mongoose';
 
 import { ICriteria } from '../Criteria/ICriteria';
@@ -32,7 +34,14 @@ abstract class BaseMongooseRepository<T extends IBaseDomain> implements IBaseRep
 
         if (!entity)
         {
-            throw new NotFoundException(this.entityName);
+            throw new ErrorException({
+                message: `${this.entityName} not found.`,
+                type: GeneralErrorType.NOT_FOUND,
+                metadata: {
+                    context: 'Entity not found in the repository',
+                    id
+                }
+            });
         }
 
         return entity;
@@ -49,7 +58,14 @@ abstract class BaseMongooseRepository<T extends IBaseDomain> implements IBaseRep
 
         if (!entity)
         {
-            throw new NotFoundException(this.entityName);
+            throw new ErrorException({
+                message: `${this.entityName} not found.`,
+                type: GeneralErrorType.NOT_FOUND,
+                metadata: {
+                    context: 'Entity not found in the repository',
+                    id
+                }
+            });
         }
 
         return entity;
@@ -61,7 +77,10 @@ abstract class BaseMongooseRepository<T extends IBaseDomain> implements IBaseRep
 
         if (options?.initThrow && !entity)
         {
-            throw new NotFoundException(this.entityName);
+            throw new ErrorException({
+                message: `${this.entityName} not found.`,
+                type: GeneralErrorType.NOT_FOUND
+            });
         }
 
         return entity;
@@ -73,7 +92,10 @@ abstract class BaseMongooseRepository<T extends IBaseDomain> implements IBaseRep
 
         if (options?.initThrow && entities.length === 0)
         {
-            throw new NotFoundException(this.entityName);
+            throw new ErrorException({
+                message: `${this.entityName} not found.`,
+                type: GeneralErrorType.NOT_FOUND
+            });
         }
 
         return entities;
@@ -92,7 +114,10 @@ abstract class BaseMongooseRepository<T extends IBaseDomain> implements IBaseRep
 
         if (initThrow && !exist)
         {
-            throw new NotFoundException(this.entityName);
+            throw new ErrorException({
+                message: `${this.entityName} not found.`,
+                type: GeneralErrorType.NOT_FOUND
+            });
         }
 
         return exist;

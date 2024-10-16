@@ -8,6 +8,8 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { IFileService } from '@shared/Filesystem/IFileService';
 import { IFilesystem } from '@shared/Filesystem/IFilesystem';
 import ValidatedHandler from '@shared/Validations/ValidatedHandler';
+import {GeneralErrorType} from "@shared/Exceptions/GeneralErrorType";
+import {ErrorException} from "@shared/Exceptions/ErrorException";
 
 
 @CommandHandler(UpdateUploadFileMultipartCommand)
@@ -28,7 +30,10 @@ class UpdateUploadFileMultipartHandler extends ValidatedHandler<UpdateUploadFile
 
         if (!originalFile.isOriginal()) // TODO: Replace for a repository query
         {
-            throw new Error('Original file is required.');
+            throw new ErrorException({
+                message: 'Original file is required.',
+                type: GeneralErrorType.BAD_REQUEST
+            });
         }
 
         const file: IFileDomain = new File();

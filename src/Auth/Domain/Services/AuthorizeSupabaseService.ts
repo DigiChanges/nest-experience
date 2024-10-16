@@ -1,4 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ErrorException } from '@shared/Exceptions/ErrorException';
+import { GeneralErrorType } from '@shared/Exceptions/GeneralErrorType';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import * as jwt from 'jwt-simple';
@@ -42,17 +44,21 @@ class AuthorizeSupabaseService implements IAuthorizeService
     return jwt.decode(token, this.config.jwtSecret, false);
   }
 
-  public async authorize(userId: string, permission: string): Promise<void>
-{
-    const verified = await this.repository.checkPermissions({ userId, permission });
+    public async authorize(userId: string, permission: string): Promise<void>
+    {
+        const verified = await this.repository.checkPermissions({ userId, permission });
 
-    if (!verified)
-{
-      throw new ForbiddenException();
+        if (!verified)
+        {
+            throw new ErrorException({
+                message: 'User does not have permission.',
+                type: GeneralErrorType.FORBIDDEN
+            });
+        }
     }
-  }
 
-  public async getAuthUser(data: string): Promise<IUserDomain>
+
+        public async getAuthUser(data: string): Promise<IUserDomain>
 {
     return await this.repository.getAuthUser(data);
   }

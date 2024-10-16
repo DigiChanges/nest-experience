@@ -27,6 +27,8 @@ import IItemDomain from '../../Domain/Entities/IItemDomain';
 import ItemRepPayload from '../../Domain/Payloads/ItemRepPayload';
 import ItemUpdatePayload from '../../Domain/Payloads/ItemUpdatePayload';
 import ItemTransformer from '../Transformers/ItemTransformer';
+import {GeneralErrorType} from "@shared/Exceptions/GeneralErrorType";
+import {ErrorException, IErrorDetails} from "@shared/Exceptions/ErrorException";
 
 @Controller('items')
 class ItemController

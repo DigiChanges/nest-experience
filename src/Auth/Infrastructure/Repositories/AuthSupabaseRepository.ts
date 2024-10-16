@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { ErrorException } from '@shared/Exceptions/ErrorException';
 import { ErrorHttpException } from '@shared/Exceptions/ErrorHttpException';
+import { GeneralErrorType } from '@shared/Exceptions/GeneralErrorType';
 import { StatusCode } from '@shared/Utils/StatusCode';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
@@ -29,24 +31,27 @@ class AuthSupabaseRepository implements IAuthRepository
   public async checkPermissions({ userId, permission }: PermissionPayload): Promise<boolean>
   {
     const { data, error } = await this
-      .#client
-      .rpc('get_authorization', {
-        field_user_id: userId,
-        permission_name: permission
-      });
+        .#client
+        .rpc('get_authorization', {
+          field_user_id: userId,
+          permission_name: permission
+        });
 
     if (error)
     {
-      throw new ErrorHttpException({
-        statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
-        errorMessage: {
-          message: error.message
+      throw new ErrorException({
+        message: error?.message || 'Unexpected error occurred while fetching user.',
+        type: GeneralErrorType.UNEXPECTED_ERROR,
+        metadata: {
+          additionalInfo: 'Error while accessing external user service.'
         }
       });
     }
 
+
     return data;
   }
+
 
   public async getAuthUser(info: string): Promise<IUserDomain>
   {
@@ -56,13 +61,15 @@ class AuthSupabaseRepository implements IAuthRepository
 
     if (error || !data?.user)
     {
-      throw new ErrorHttpException({
-        statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
-        errorMessage: {
-          message: error.message
+      throw new ErrorException({
+        message: error?.message || 'Unexpected error occurred while fetching user.',
+        type: GeneralErrorType.UNEXPECTED_ERROR,
+        metadata: {
+          additionalInfo: 'Error while accessing external user service.'
         }
       });
     }
+
 
     return {
       id: data?.user.id,
@@ -80,10 +87,11 @@ class AuthSupabaseRepository implements IAuthRepository
 
     if (error)
     {
-      throw new ErrorHttpException({
-        statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
-        errorMessage: {
-          message: error.message
+      throw new ErrorException({
+        message: error.message || 'An unexpected error occurred.',
+        type: GeneralErrorType.UNEXPECTED_ERROR,
+        metadata: {
+          additionalInfo: 'An error occurred while processing the request.'
         }
       });
     }
@@ -102,11 +110,9 @@ class AuthSupabaseRepository implements IAuthRepository
 
     if (error)
     {
-      throw new ErrorHttpException({
-        statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
-        errorMessage: {
-          message: error.message
-        }
+      throw new ErrorException({
+        message: error.message || 'An unexpected error occurred while adding permissions.',
+        type: GeneralErrorType.UNEXPECTED_ERROR
       });
     }
   }
@@ -121,11 +127,9 @@ class AuthSupabaseRepository implements IAuthRepository
 
     if (error)
     {
-      throw new ErrorHttpException({
-        statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
-        errorMessage: {
-          message: error.message
-        }
+      throw new ErrorException({
+        message: error.message || 'An unexpected error occurred while removing permissions.',
+        type: GeneralErrorType.UNEXPECTED_ERROR
       });
     }
   }
@@ -139,11 +143,9 @@ class AuthSupabaseRepository implements IAuthRepository
 
     if (error)
     {
-      throw new ErrorHttpException({
-        statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
-        errorMessage: {
-          message: error.message
-        }
+      throw new ErrorException({
+        message: error.message || 'An unexpected error occurred while getting Roles.',
+        type: GeneralErrorType.UNEXPECTED_ERROR
       });
     }
 
@@ -159,29 +161,25 @@ class AuthSupabaseRepository implements IAuthRepository
 
     if (error)
     {
-      throw new ErrorHttpException({
-        statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
-        errorMessage: {
-          message: error.message
-        }
+      throw new ErrorException({
+        message: error.message || 'An unexpected error occurred while adding roles.',
+        type: GeneralErrorType.UNEXPECTED_ERROR
       });
     }
   }
 
   public async addRolesHasPermissions(rolePermissionDomain: IRolePermissionDomain[]): Promise<void>
-  {
+{
     const { error } = await this
-      .#client
-      .from('roles_has_permissions')
-      .upsert(rolePermissionDomain);
+        .#client
+        .from('roles_has_permissions')
+        .upsert(rolePermissionDomain);
 
     if (error)
     {
-      throw new ErrorHttpException({
-        statusCode: StatusCode.HTTP_INTERNAL_SERVER_ERROR,
-        errorMessage: {
-          message: error.message
-        }
+      throw new ErrorException({
+        message: error.message || 'An unexpected error occurred.',
+        type: GeneralErrorType.UNEXPECTED_ERROR
       });
     }
   }
