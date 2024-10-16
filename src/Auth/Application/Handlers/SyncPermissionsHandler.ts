@@ -1,5 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { ErrorException } from '@shared/Exceptions/ErrorException';
+import { GeneralErrorType } from '@shared/Exceptions/GeneralErrorType';
 import SyncPermissionsCommand from '@src/Auth/Application/Commands/SyncPermissionsCommand';
 
 import Permissions from '../../../Config/Permissions';
@@ -65,12 +67,15 @@ class SyncPermissionsHandler implements ICommandHandler<SyncPermissionsCommand>
     const rolePermissionAssignments = [];
 
     for (const [roleName, permissions] of Roles.getRoles())
-    {
+{
       const role = allRoles.find(roleDomain => roleDomain.name === roleName);
 
       if (!role)
       {
-        throw new Error(`Role ${roleName} not found.`);
+        throw new ErrorException({
+          message: `Role ${roleName} not found.`,
+          type: GeneralErrorType.NOT_FOUND
+        });
       }
 
       const permissionMap = allPermissions.reduce((map, perm) =>
@@ -85,7 +90,7 @@ class SyncPermissionsHandler implements ICommandHandler<SyncPermissionsCommand>
 
         if (!permission)
         {
-          Logger.error('Permission not found.');
+          Logger.error(`Permission ${permissionName} not found for role ${roleName}.`);
           continue;
         }
 

@@ -1,4 +1,5 @@
-import { BadRequestException } from '@nestjs/common';
+import { ErrorException } from '@shared/Exceptions/ErrorException';
+import { GeneralErrorType } from '@shared/Exceptions/GeneralErrorType';
 import { ZodSchema } from 'zod';
 
 interface Payload {
@@ -16,7 +17,10 @@ abstract class ValidatedHandler<T extends Payload, R>
 
         if (!validation.success)
         {
-            throw new BadRequestException(validation.error.errors);
+            throw new ErrorException({
+                message: 'Validation errors occurred',
+                type: GeneralErrorType.BAD_REQUEST
+            });
         }
 
         return validation.data as Q;

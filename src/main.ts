@@ -11,7 +11,9 @@ void (async() =>
   );
 
   const application = new App(app);
+
   application.init();
+  application.useGlobalFilters();
   await application.initMiddleware();
   await application.listen(8089);
 })();
