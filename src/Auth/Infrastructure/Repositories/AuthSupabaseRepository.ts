@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ErrorException } from '@shared/Exceptions/ErrorException';
-import { ErrorHttpException } from '@shared/Exceptions/ErrorHttpException';
 import { GeneralErrorType } from '@shared/Exceptions/GeneralErrorType';
-import { StatusCode } from '@shared/Utils/StatusCode';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 import IPermissionDomain from '../../Domain/Entities/IPermissionDomain';

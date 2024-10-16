@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ErrorException } from '@shared/Exceptions/ErrorException';
 import { GeneralErrorType } from '@shared/Exceptions/GeneralErrorType';
 import dayjs from 'dayjs';

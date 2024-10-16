@@ -1,4 +1,3 @@
-import { NotFoundException } from '@nestjs/common';
 import { ErrorException } from '@shared/Exceptions/ErrorException';
 import { GeneralErrorType } from '@shared/Exceptions/GeneralErrorType';
 import * as mongoose from 'mongoose';
