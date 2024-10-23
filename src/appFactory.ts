@@ -2,6 +2,7 @@ import Compression from '@fastify/compress';
 import FastifyMultipart from '@fastify/multipart';
 import { RequestMethod } from '@nestjs/common';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { AllExceptionsFilter } from '@shared/Exceptions/AllExceptionsFilter';
 import Qs from 'fastify-qs';
 
 class App
@@ -20,6 +21,11 @@ class App
     await this.app.register(Compression);
     await this.app.register(Qs);
     await this.app.register(FastifyMultipart);
+  }
+
+  useGlobalFilters()
+  {
+    this.app.useGlobalFilters(new AllExceptionsFilter());
   }
 
   async listen(port: number): Promise<void>
